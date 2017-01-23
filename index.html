@@ -23,13 +23,20 @@
 	<div class="main-wrapper clearfix">
 		<div class="col-2-left"><canvas id="instaUI" width="800px" height="600px"></canvas></div>
 		<div class="col-2-right clearfix">
-			<input id="getFile" type="file"></div>
-			<label>Brightness</label>
-			<input id="brightness" type="range" name="points" min="0" max="50">
-			<label>Shadow</label>
-			<input id="shadow" type="range" name="points" min="-25" max="25">
-		</div>
+			<div class="edit-box-container">
+				<input id="getFile" type="file">
+				<label>Brightness</label>
+				<input id="brightness" type="range" name="points" min="0" max="50">
+				<label>Shadow</label>
+				<input id="shadow" type="range" name="points" min="-25" max="25">
+			</div>
+			</div>
 	</div>
+	<script type="text/javascript" src="js/Util.js"></script>
+	<script type="text/javascript" src="js/View.js"></script>
+	<script type="text/javascript" src="js/InstaUi.js"></script>
+	<script type="text/javascript" src="js/ImageData.js"></script>
+	<script type="text/javascript" src="js/Filter.js"></script>
 	<script src="js/script.js"></script>
 </body>
 </html>

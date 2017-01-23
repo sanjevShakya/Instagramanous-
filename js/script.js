@@ -2,154 +2,20 @@
 	//image height and width 4:3 ratio
 	var IMAGE_WIDTH = 800;
 	var IMAGE_HEIGHT = 600;
-
-	var Util = (function() {
-		
-		var getElement = function(classname){
-			return document.getElementsByClassName(classname)[0];
-		}
-
-		var getStyle = function(element, style) {
-			return parseInt(getComputedStyle(element).getPropertyValue(style));
-		}
-
-		var truncate = function(value) {
-			if(value < 0) {
-				value = 0;
-			}
-
-			if(value > 255) {
-				value = 255
-			}
-
-			return value;
-		}
-
-		return {
-			getElement : getElement,
-			getStyle : getStyle,
-			truncate : truncate
-		}
-
-	})();
-
-	var View  = (function() {
-		function View() {
-			this.getMainWrapper = function() {
-				var element = document.getElementByClassName('main-wrapper')[0];
-				return element;
-			}
-
-			this.create = function(elementName) {
-				var element = document.createElement(elementName);
-				return element;
-			}
-
-			this.addClass = function(element, className) {
-				element.className = className;
-			}
-
-			this.append = function(parentElement , childElement) {
-				parentElement.appendChild(childElement);
-			}
-
-			return {
-				getInstance: function() {
-					if(instance == null) {
-						instance = new View();
-					}
-
-					return instance;
-				}
-			}
-		}
-	}());
-
-	var ImageData = (function() {
-		var instance;
-		function ImageData() {
-			var imageWidth;
-			var imageHeight;
-			var image;
-			this.getImage = function() {
-				return image;
-			}
-
-			this.setImage = function(_image) {
-				image = _image;
-			}
-
-			this.getImageWidth = function() {
-				return imageWidth;
-			}
-
-			this.getImageHeight = function() {
-				return imageHeight;
-			}
-
-			this.setImageWidth = function(width) {
-				imageWidth = width;
-			}
-
-			this.setImageHeight = function(height) {
-				imageHeight = height;
-			}
-		}
-
-		return {
-			getInstance : function(){
-				if(instance == null) {
-					instance = new ImageData();
-				}
-				return instance;
-			}
-		}
-	})();
+	var file = document.getElementById('getFile');
+	file.addEventListener("change",fileSelectHandler, false);
+	console.log(document.querySelector('input[type=file]').files[0]);
 	
+	function fileSelectHandler(event) {
+		if(file) {
+			handleFile(event.target.files[0]);				
+			setTimeout(function(){
+				brightnessTest();
+				shadowTest();
+			},3000);
 
-	var InstaUi = (function() {
-		var instance;
-		function InstaUi() {
-			var canvas = document.getElementById('instaUI');
-			var ctx = canvas.getContext('2d');
-			var that = this;
-
-			this.setWidth = function(width) {
-				canvas.width = width;
-			} 
-
-			this.setHeight = function(height) {
-				canvas.height = height;
-			}
-
-			this.getWidth= function() {
-				return canvas.width;
-			}
-
-			this.getHeight = function() {
-				return canvas.height;
-			}
-
-			this.getCanvas = function() {
-				return canvas;
-			}
-
-			this.getContext = function() {
-				return ctx;
-			}
 		}
-
-		return {
-			getInstance: function() {
-				if(instance == null) {
-					instance = new InstaUi();
-				}
-
-				return instance;
-
-			}
-		}
-	})();
+	}
 
 	var handleFile = function(file) {
 		var fr = new FileReader();
@@ -180,38 +46,11 @@
 		
 	}
 
-	var addImage = function() {
-		var file = document.querySelector('input[type=file]').files[0];
-		var element = document.getElementsByClassName('col-2-left')[0];
-		if(file) {
-			handleFile(file);	
-		}
-	}
 
-	var Filters = (function() {
-		var instance;
-
-		function Filter() {
-			var editPanel = document.getElementsByClassName('col-2-right')[0];
-	
-			this.element;
-
-			this.init = function() {
-				this.element = document.createElement('div');
-				this.element.setAttribute('class','filter');
-				editPanel.appendChild(this.element);
-			}
-		}
-		return {
-			getInstance: function() {
-				return new Filter().init();
-			}
-		}
-	})();
 
 	var createFilters = function() {
 		for(var i =1; i <= 9 ; i++) {
-			Filters.getInstance();
+			Filter.getInstance();
 		}
 	}
 
@@ -338,11 +177,8 @@
 
 	
 	createFilters();
-	addImage();
-	setTimeout(function(){
-		brightnessTest();
-		shadowTest();
-	},1000);
+
+	
 	
 
 })();
