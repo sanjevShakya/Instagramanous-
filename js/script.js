@@ -13,9 +13,22 @@
 			return parseInt(getComputedStyle(element).getPropertyValue(style));
 		}
 
+		var truncate = function(value) {
+			if(value < 0) {
+				value = 0;
+			}
+
+			if(value > 255) {
+				value = 255
+			}
+
+			return value;
+		}
+
 		return {
 			getElement : getElement,
-			getStyle : getStyle
+			getStyle : getStyle,
+			truncate : truncate
 		}
 
 	})();
@@ -57,6 +70,15 @@
 		function ImageData() {
 			var imageWidth;
 			var imageHeight;
+			var image;
+			this.getImage = function() {
+				return image;
+			}
+
+			this.setImage = function(_image) {
+				image = _image;
+			}
+
 			this.getImageWidth = function() {
 				return imageWidth;
 			}
@@ -85,9 +107,9 @@
 	})();
 	
 
-	var instaUi = (function() {
+	var InstaUi = (function() {
 		var instance;
-		function instaUi() {
+		function InstaUi() {
 			var canvas = document.getElementById('instaUI');
 			var ctx = canvas.getContext('2d');
 			var that = this;
@@ -120,7 +142,7 @@
 		return {
 			getInstance: function() {
 				if(instance == null) {
-					instance = new instaUi();
+					instance = new InstaUi();
 				}
 
 				return instance;
@@ -131,13 +153,14 @@
 
 	var handleFile = function(file) {
 		var fr = new FileReader();
-		var context = instaUi.getInstance().getContext();
+		var context = InstaUi.getInstance().getContext();
 		console.log('context',context);
 		fr.addEventListener('load',function(event){
 			var imageData = ImageData.getInstance();
 			var url = event.target.result;
 			var img = new Image();
 			img.src = url;
+			imageData.setImage(img);
 			var width = img.width;
 			var height = img.height;
 			var aspectRatio = width/height;
@@ -192,15 +215,134 @@
 		}
 	}
 
-	var brightness = document.getElementById('brightness');
-	brightness.oninput = function(e) {
-		console.log(brightness.value);
+	var brightnessTest = function() {
+		var brightness = document.getElementById('brightness');
+		var image = ImageData.getInstance().getImage();
+		var canvasInstance = InstaUi.getInstance();
+		var canvas = canvasInstance.getCanvas(); 
+		var context = canvasInstance.getContext();
+		var imageData = context.getImageData(0, 0, canvasInstance.getWidth(), canvasInstance.getHeight());
+		var originalData = imageData.data.slice();
+		var data = imageData.data;
+		//image.style.display = 'none';
+		var previousValue =0;
+		brightness.oninput = function(e) {
+			var currentValue = brightness.value;
+			var step = 0;
+			if(currentValue >= 0 && previousValue < currentValue) {
+				step = step + (currentValue - previousValue);
+				step *= 1;
+			}  
+			if(previousValue >= currentValue) {
+				step = step + (previousValue - currentValue);
+				step *= -1;
+			}
+			previousValue = currentValue;
+			console.log("step",step);
+			for(var i=0; i< data.length; i+=4) {
+				// data[i] = Util.truncate(data[i] + brightnessValue)//R
+				// data[i+1] = Util.truncate(data[i+1] + brightnessValue) //G
+				// data[i+2] = Util.truncate(data[i+2] + brightnessValue)//B
+				data[i] = Util.truncate(data[i] + step)//R
+				data[i+1] =Util.truncate(data[i+1] + step) //G
+				data[i+2] =Util.truncate(data[i+2] + step)//B
+			}
+			 context.putImageData(imageData, 0, 0);
+		}
+
+		// var brightnessValue = 100;
+			
+		// 	for(var i=0; i< data.length; i+=4) {
+		// 		data[i] = Util.truncate(data[i] + brightnessValue)//R
+		// 		data[i+1] = Util.truncate(data[i+1] + brightnessValue) //G
+		// 		data[i+2] = Util.truncate(data[i+2] + brightnessValue)//B
+		// 	}
+		// context.putImageData(imageData, 0, 0);
+
+		// console.log(brightness.value);
+
 	}
 
-	console.log(brightness.value);
+	var shadowTest = function() {
+		var shadow = document.getElementById('shadow');
+		var image = ImageData.getInstance().getImage();
+		var canvasInstance = InstaUi.getInstance();
+		var canvas = canvasInstance.getCanvas(); 
+		var context = canvasInstance.getContext();
+		var imageData = context.getImageData(0, 0, canvasInstance.getWidth(), canvasInstance.getHeight());
+		var originalData = imageData.data.slice();
+		var data = imageData.data;
+		//image.style.display = 'none';
+		var previousValue =0;
+		shadow.oninput = function(e) {
+			var currentValue = shadow.value;
+			console.log('shadow value',currentValue);
+			var step = 0;
+			var slideLeft = false;
+			console.log("previousValue",previousValue);
+			console.log("currentValue",currentValue);
+
+			if(currentValue >= 0 && previousValue >= currentValue) {
+				slideLeft = true;
+			}else if(currentValue < 0 && previousValue <= currentValue) {
+				slideLeft = true;
+			}else {
+				slideLeft = false;
+			}
+
+			if(slideLeft) {
+				step = step + (currentValue - previousValue);
+				step *=1;
+			}
+			if(!slideLeft) {
+				step = step + (previousValue - currentValue);
+				step *=-1;
+			}
+			previousValue = currentValue;
+			console.log('slideLeft',slideLeft);
+
+			// if(slideLeft) {
+			// 	step = step + (currentValue - previousValue);
+			// 	step *= 1;
+			// }
+
+			// if(!slideLeft) {
+			// 	step = step + (Math.abs(previousValue) - Math.abs(currentValue));
+			// 	step *= -1
+			// }
+
+
+			// if(currentValue >= 0 && previousValue < currentValue) {
+			// 	step = step + (currentValue - previousValue);
+			// 	step *= 1;
+			// 	slideLeft = true;
+			// }  
+			// if(previousValue >= currentValue) {
+			// 	step = step + (previousValue - currentValue);
+			// 	step *= -1;
+			// }
+			
+			for(var i=0; i< data.length; i+=4) {
+				// data[i] = Util.truncate(data[i] + brightnessValue)//R
+				// data[i+1] = Util.truncate(data[i+1] + brightnessValue) //G
+				// data[i+2] = Util.truncate(data[i+2] + brightnessValue)//B
+				data[i] = Util.truncate(data[i] + step)//R
+				data[i+1] =Util.truncate(data[i+1] + step) //G
+				data[i+2] =Util.truncate(data[i+2] + step)//B
+			}
+			 context.putImageData(imageData, 0, 0);
+		}
+	}
+
+	
 
 	
 	createFilters();
 	addImage();
+	setTimeout(function(){
+		brightnessTest();
+		shadowTest();
+	},1000);
+	
 
 })();
