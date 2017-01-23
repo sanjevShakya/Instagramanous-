@@ -2,16 +2,25 @@
 	//image height and width 4:3 ratio
 	var IMAGE_WIDTH = 800;
 	var IMAGE_HEIGHT = 600;
+
 	var file = document.getElementById('getFile');
 	file.addEventListener("change",fileSelectHandler, false);
 	console.log(document.querySelector('input[type=file]').files[0]);
-	
+	var brightness = Brightness.getInstance();
+	brightness.init();
+	var contrast = Contrast.getInstance();
+	contrast.init();
+
 	function fileSelectHandler(event) {
 		if(file) {
 			handleFile(event.target.files[0]);				
 			setTimeout(function(){
 				brightnessTest();
 				shadowTest();
+
+				brightness.setBrightness(InstaUi.getInstance());
+				contrast.setContrast(InstaUi.getInstance());
+				
 			},3000);
 
 		}
@@ -58,7 +67,6 @@
 		var brightness = document.getElementById('brightness');
 		var image = ImageData.getInstance().getImage();
 		var canvasInstance = InstaUi.getInstance();
-		var canvas = canvasInstance.getCanvas(); 
 		var context = canvasInstance.getContext();
 		var imageData = context.getImageData(0, 0, canvasInstance.getWidth(), canvasInstance.getHeight());
 		var originalData = imageData.data.slice();
@@ -79,9 +87,6 @@
 			previousValue = currentValue;
 			console.log("step",step);
 			for(var i=0; i< data.length; i+=4) {
-				// data[i] = Util.truncate(data[i] + brightnessValue)//R
-				// data[i+1] = Util.truncate(data[i+1] + brightnessValue) //G
-				// data[i+2] = Util.truncate(data[i+2] + brightnessValue)//B
 				data[i] = Util.truncate(data[i] + step)//R
 				data[i+1] =Util.truncate(data[i+1] + step) //G
 				data[i+2] =Util.truncate(data[i+2] + step)//B
@@ -89,24 +94,13 @@
 			 context.putImageData(imageData, 0, 0);
 		}
 
-		// var brightnessValue = 100;
-			
-		// 	for(var i=0; i< data.length; i+=4) {
-		// 		data[i] = Util.truncate(data[i] + brightnessValue)//R
-		// 		data[i+1] = Util.truncate(data[i+1] + brightnessValue) //G
-		// 		data[i+2] = Util.truncate(data[i+2] + brightnessValue)//B
-		// 	}
-		// context.putImageData(imageData, 0, 0);
-
-		// console.log(brightness.value);
-
 	}
 
 	var shadowTest = function() {
 		var shadow = document.getElementById('shadow');
-		var image = ImageData.getInstance().getImage();
+		//var image = ImageData.getInstance().getImage();
 		var canvasInstance = InstaUi.getInstance();
-		var canvas = canvasInstance.getCanvas(); 
+		//var canvas = canvasInstance.getCanvas(); 
 		var context = canvasInstance.getContext();
 		var imageData = context.getImageData(0, 0, canvasInstance.getWidth(), canvasInstance.getHeight());
 		var originalData = imageData.data.slice();
@@ -174,10 +168,8 @@
 	}
 
 	
-
 	
-	createFilters();
-
+createFilters();
 	
 	
 
