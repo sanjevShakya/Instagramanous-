@@ -1,0 +1,13 @@
+.col-2-left {
+	float: left;
+	width: 75%;
+	outline: 1px solid grey;
+	
+}
+
+.col-2-right {
+	float: right;
+	width: 25%;
+	outline: 1px solid grey;
+	
+}
