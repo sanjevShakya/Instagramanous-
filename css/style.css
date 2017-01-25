@@ -6,3 +6,7 @@ div.filter {
 	border: 1px solid #dfdfdf;
 	float: left;
 }
+
+div.filter: hover {
+	border-color: #afafaf;
+}

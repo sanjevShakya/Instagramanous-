@@ -28,23 +28,38 @@
 	function fileSelectHandler(event) {
 		if(file) {
 			handleFile(event.target.files[0]);				
+		
+			//setInterval(mainApp, 500);
 			setTimeout(function(){
-
-				brightness.setBrightness(InstaUi.getInstance());
-				contrast.setContrast(InstaUi.getInstance());
-				gamma.setGamma(InstaUi.getInstance());
-				saturation.setSaturation(InstaUi.getInstance());
-				temperature.setTemperature(InstaUi.getInstance());
-				tint.setTint(InstaUi.getInstance());
-			},2000);
+				mainApp();
+			},1000);
+			
 
 		}
+	}
+
+	var mainApp = function() {
+		var canvasInstance = InstaUi.getInstance();
+		var context = canvasInstance.getContext();
+		var imageData = canvasInstance.getImageData();;
+		var data = imageData.data;
+		var copyData = imageData.data.slice();
+		canvasInstance.setCopyData(copyData);
+		brightness.setBrightness(canvasInstance);
+		contrast.setContrast(canvasInstance);
+		gamma.setGamma(canvasInstance);
+		saturation.setSaturation(canvasInstance);
+		temperature.setTemperature(canvasInstance);
+		tint.setTint(canvasInstance);
+		createFilters();
+	
+		//context.putImageData(imageData, 0, 0);
+	
 	}
 
 	var handleFile = function(file) {
 		var fr = new FileReader();
 		var context = InstaUi.getInstance().getContext();
-		console.log('context',context);
 		fr.addEventListener('load',function(event){
 			var imageData = ImageData.getInstance();
 			var url = event.target.result;
@@ -72,13 +87,18 @@
 
 
 	var createFilters = function() {
-		for(var i =1; i <= 9 ; i++) {
-			Filter.getInstance();
+		for(var i =0; i < 9 ; i++) {
+			var filter = Filter.getInstance();
+			filter.init();
+			filter.setId(i);
+			filter.append();
 		}
 	}
 
 
-createFilters();
+
+
+	
 	
 	
 
