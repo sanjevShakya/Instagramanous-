@@ -1,4 +1,4 @@
-var filterNames = ["Grayscale", "Threshold","Blur", "Sharpen","Soft Sharpen","Clarendon","Gingham","Moon","Lark","Lipstick","Colorize","Reyes","Juno","Slumber",""];
+var filterNames = ["Normal","Clarendon","Gingham","Moon","Lark","Lipstick","Colorize","Reyes","Juno","Slumber","Grayscale", "Threshold","Blur", "Sharpen","Soft Sharpen"];
 
 var Filter = (function() {
 	var instance;

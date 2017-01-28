@@ -5,6 +5,7 @@ var InstaUi = (function() {
 			var ctx = canvas.getContext('2d');
 			var that = this;
 			var copyData;
+			var filterData;
 
 			this.setWidth = function(_width) {
 				console.log('canvas width', _width);
@@ -44,6 +45,12 @@ var InstaUi = (function() {
 			}
 			this.getCopyData = function() {
 				return copyData;
+			}
+			this.setFilterData = function(_filterData) {
+				filterData = _filterData;
+			}
+			this.getFilterData = function() {
+				return filterData;
 			}
 		}
 

@@ -2,20 +2,21 @@ var FilterMap = (function(){
 	var instance; 
 	function FilterMap() {
 		var myFilterMap = new Map();
-		myFilterMap.set(0, grayScale);
-		myFilterMap.set(1, threshold);
-		myFilterMap.set(2, blur);
-		myFilterMap.set(3, sharpenFilter);
-		myFilterMap.set(4, usmFilter);
-		myFilterMap.set(5, clarendon);
-		myFilterMap.set(6, gingham);
-		myFilterMap.set(7, moon);
-		myFilterMap.set(8, lark);
-		myFilterMap.set(9, lipstick);
-		myFilterMap.set(10, colorize);
-		myFilterMap.set(11, reyes);
-		myFilterMap.set(12, juno);
-		myFilterMap.set(13, slumber);
+		myFilterMap.set(0, normal);
+		myFilterMap.set(1, clarendon);
+		myFilterMap.set(2, gingham);
+		myFilterMap.set(3, moon);
+		myFilterMap.set(4, lark);
+		myFilterMap.set(5, lipstick);
+		myFilterMap.set(6, colorize);
+		myFilterMap.set(7, reyes);
+		myFilterMap.set(8, juno);
+		myFilterMap.set(9, slumber);
+		myFilterMap.set(10, grayScale);
+		myFilterMap.set(11, threshold);
+		myFilterMap.set(12, blur);
+		myFilterMap.set(13, sharpenFilter);
+		myFilterMap.set(14, usmFilter);
 
 		this.getMyFilterMap = function() {
 			return myFilterMap;
@@ -266,7 +267,6 @@ var convolute = function(data,width, height, weights, opaque) {
 		}
 	}
 	return data;
-
 };
  //Filters
 
@@ -278,6 +278,7 @@ var grayScale = function(canvasInstance) {
 	restore(data, copyData);
 
 	var tempData = grayScaleManiputlation(data);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData, 0, 0);
 }
@@ -289,6 +290,7 @@ var threshold = function(canvasInstance) {
 	var copyData = canvasInstance.getCopyData();
 	restore(data, copyData);
 	var tempData = thresholdManipulation(data);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData, 0, 0);
 }
@@ -306,6 +308,7 @@ var blur = function(canvasInstance) {
     			 1/9,  1/9, 1/9,
     			 1/9, 1/9,  1/9 ], true);
 	restore(data, tempData);
+	canvasInstance.setFilterData(tempData);
 	context.putImageData(imageData, 0, 0);
 }
 
@@ -321,6 +324,7 @@ var sharpenFilter = function(canvasInstance) {
 				[ 0, -1,  0,
     			  -1, 5, -1,
     			  0, -1,  0 ], true);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData, 0, 0);
 }
@@ -340,7 +344,19 @@ var usmFilter = function(canvasInstance) { //unsharp masking
     			  -6/256, -24/256,  476/256, -24/256, -6/256, 
     			  -4/256, -16/256, -24/256, -16/256, -4/256,
     			  -1/256, -4/256, -6/256, -4/256, -1/256], true);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
+	context.putImageData(imageData, 0, 0);
+}
+
+var normal = function(canvasInstance) {
+	var imageData = canvasInstance.getImageData();
+	var context = canvasInstance.getContext();
+	var data = imageData.data;
+	var copyData = canvasInstance.getCopyData();
+	restore(data, copyData);
+	canvasInstance.setFilterData(copyData);
+	//clarendon algorithm brightness 10 temp 10 contrast 10 
 	context.putImageData(imageData, 0, 0);
 }
 
@@ -354,9 +370,9 @@ var clarendon = function(canvasInstance) {
 	var tempData = brightness(37, data);
 	tempData = contrast(28, tempData);
 	tempData = saturation(1.25, tempData);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData, 0, 0);
-
 }
 
 var gingham = function(canvasInstance) {
@@ -370,6 +386,7 @@ var gingham = function(canvasInstance) {
 	tempData = contrast(-38, tempData);
 	tempData = saturation(1.37, tempData);
 	tempData = gamma(0.96, tempData);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData, 0, 0);
 }
@@ -383,7 +400,7 @@ var moon = function(canvasInstance) {
 	//moon values 
 	var tempData = brightness(67, data);
 	tempData = saturation(0, tempData);
-	
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData, 0, 0);
 }
@@ -399,6 +416,7 @@ var lark = function(canvasInstance) {
 	tempData = contrast(17, tempData);
 	tempData = saturation(1.34, tempData);
 	tempData = gamma(0.57, tempData);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData,0,0);
 }
@@ -409,12 +427,8 @@ var lipstick = function(canvasInstance) {
 	var data = imageData.data;
 	var copyData = canvasInstance.getCopyData();
 	restore(data, copyData);
-
-	// var tempData =brightness(55, data);
-	// tempData = brightnessExpRed(30, data);
-	// tempData = gamma(1.44,data);
-	// tempData = contrast(-12, data);
 	var tempData = lipstickManipulation(data);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData,0,0);
 }
@@ -427,6 +441,7 @@ var colorize = function(canvasInstance) {
 	restore(data, copyData);
 	//lark values
 	var tempData = reduceColors(data);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData,0,0);
 }
@@ -441,6 +456,7 @@ var reyes = function(canvasInstance) {
 	var tempData = brightness(21, data);
 	tempData = gamma(2, tempData);
 	tempData = seipa(0.21, tempData);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData,0,0);
 }
@@ -455,6 +471,7 @@ var juno = function(canvasInstance) {
 	var tempData = vibrance(-64, data);
 	tempData = gamma(1.92, tempData);
 	tempData = tint(18, tempData);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
 	context.putImageData(imageData,0,0);
 }
@@ -471,6 +488,8 @@ var slumber = function(canvasInstance) {
 	tempData = tint(21, tempData);
 	tempData = seipa(0.09, tempData);
 	tempData = contrast(33, tempData);
+	canvasInstance.setFilterData(tempData);
 	restore(data, tempData);
+
 	context.putImageData(imageData,0,0);
 }
