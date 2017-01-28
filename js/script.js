@@ -4,6 +4,7 @@
 	var OFFSET = 5;
 	var MAX_CANVAS_HEIGHT = parseInt(height()) - OFFSET;
 	var canvasInstance = InstaUi.getInstance();
+	var context;
 	var downloadBtn = document.getElementById("downloadFile");
 	downloadBtn.addEventListener('click', download, false);
 	var file = document.getElementById('getFile');
@@ -13,6 +14,7 @@
 	var loader = document.getElementById('loader');
 	loader.style.display = "none";
 	var counter = 0;
+	var instaUi = InstaUi.getInstance();
 
 	var filterInstance = Filter.getInstance();
 	filterInstance.createFilters();
@@ -20,6 +22,14 @@
 	function fileSelectHandler(event) {
 		if(file) {
 			setTimeout(function(){
+				
+				if(counter >=1) {
+					context = canvasInstance.getContext();
+					context.clearRect(0, 0, canvasInstance.getWidth(),canvasInstance.getHeight());
+					instaUi.setWidth(50);
+					instaUi.setHeight(50);
+					console.log("cleared Canvas");
+				}
 				mainApp.handleFile(event.target.files[0]);	
 				counter++;
 				loader.style.display = "block";
@@ -113,7 +123,7 @@
 		
 
 		this.startProgram = function() {	
-			var context = canvasInstance.getContext();
+			context = canvasInstance.getContext();
 			var imageData = canvasInstance.getImageData();
 			var data = imageData.data;
 			var copyData = imageData.data.slice();
@@ -132,8 +142,7 @@
 
 		this.handleFile = function(file) {
 			var fr = new FileReader();
-			var instaUi = InstaUi.getInstance();
-			var context = instaUi.getContext();
+			context = instaUi.getContext();
 
 			fr.addEventListener('load',function(event){
 				var url = event.target.result;
@@ -141,6 +150,7 @@
 				img.src = url;
 				
 				img.addEventListener('load', function(event){
+
 					var width = img.width;
 					var height = img.height;
 					var aspectRatio = width/height;
@@ -150,12 +160,15 @@
 						canvasHeight = MAX_CANVAS_HEIGHT;
 						canvasWidth = parseInt(aspectRatio * canvasHeight);
 					}
-					instaUi.setWidth(canvasWidth);
-					instaUi.setHeight(canvasHeight);
-					context.clearRect(0, 0, canvasWidth,canvasHeight);
+					//context.clearRect(0, 0, canvasWidth,canvasHeight);
 					context.drawImage(img, 0,0,width,height,0,0,50,50);
 					var thumbnail = context.getImageData(0,0,50,50);
 					canvasInstance.setThumbnail(thumbnail);
+					filterInstance.setFilterThumbnail();
+					instaUi.setWidth(canvasWidth);
+					instaUi.setHeight(canvasHeight);
+					
+					
 					context.drawImage(
 						img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight);
 				});

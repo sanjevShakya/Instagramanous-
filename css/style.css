@@ -100,12 +100,13 @@ label {
 }
 div.filter {
 	width: 25%;
-	height: 10px;
+	height: 50px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	float: left;
 	outline: 1px solid white;
 	cursor: pointer;
+	background: center right no-repeat;
 }
 
 div.filter: hover {
