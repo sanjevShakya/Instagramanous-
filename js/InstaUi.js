@@ -6,12 +6,14 @@ var InstaUi = (function() {
 			var that = this;
 			var copyData;
 
-			this.setWidth = function(width) {
-				canvas.width = width;
+			this.setWidth = function(_width) {
+				console.log('canvas width', _width);
+				canvas.width = _width;
 			} 
 
-			this.setHeight = function(height) {
-				canvas.height = height;
+			this.setHeight = function(_height) {
+				console.log('canvas height',_height);
+				canvas.height = _height;
 			}
 
 			this.getWidth= function() {
@@ -37,6 +39,7 @@ var InstaUi = (function() {
 				return ctx.getImageData(0, 0, canvas.width, canvas.height);
 			}
 			this.setCopyData = function(_copy) {
+				console.log('copy data updated');
 				copyData = _copy;
 			}
 			this.getCopyData = function() {

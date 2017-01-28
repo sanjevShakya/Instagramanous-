@@ -3,13 +3,15 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Motion Asingle Template</title>
+	<title>Instagramanous</title>
 	<!-- Reset browser default margin padding -->
 	<link rel="stylesheet" href="css/reset.css">
 	<!-- Layout css -->
 	<link rel="stylesheet" href="css/layout.css">
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<!-- slider stylesheet -->
+	<link rel="stylesheet" href="css/slider.css">
 	<!-- Style stylesheet -->
 	<link rel="stylesheet" href="css/style.css">
 	<!--media queries for responsive design -->
@@ -21,17 +23,15 @@
 </head>
 <body>
 	<div class="main-wrapper clearfix">
-		<div class="col-2-left"><canvas id="instaUI" width="800px" height="600px"></canvas></div>
+		<div class="col-2-left">
+			<canvas id="instaUI"></canvas>
+		</div>
 		<div class="col-2-right clearfix">
 			<div class="edit-box-container">
 				<input id="getFile" type="file">
-				<!-- <label>Brightness</label>
-				<input autocomplete="off" id="brightness" type="range" name="points" min="0" max="50" value="0">
-				<label>Shadow</label>
-				<input id="shadow" type="range" name="points" min="-25" max="25"> -->
 			</div>
 			<div class="filter-container"></div>
-			</div>
+		</div>
 	</div>
 	<script type="text/javascript" src="js/Util.js"></script>
 	<script type="text/javascript" src="js/View.js"></script>
@@ -40,7 +40,6 @@
 	<script type="text/javascript" src="js/filters/FilterMap.js"></script>
 	<script type="text/javascript" src="js/filters/Filter.js"></script>
 	<script type="text/javascript" src="js/manipulators/Manipulator.js"></script>
-<!-- 	<script type="text/javascript" src="js/filters/FilterCommands.js"></script> -->
 	<script src="js/script.js"></script>
 </body>
 </html>

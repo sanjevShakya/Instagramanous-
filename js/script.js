@@ -2,10 +2,17 @@
 	//image height and width 4:3 ratio
 	var IMAGE_WIDTH = 800;
 	var IMAGE_HEIGHT = 600;
+	var OFFSET = 1;
+	var CANVAS_WIDTH = parseInt(0.7 * width()); // 70% of window screen
+	var CANVAS_HEIGHT = parseInt(height()) - OFFSET;
+
+	
 
 	var file = document.getElementById('getFile');
 	file.addEventListener("change",fileSelectHandler, false);
-	
+
+	var canvasInstance = InstaUi.getInstance();
+
 	var brightness = Brightness.getInstance();
 	brightness.init();
 
@@ -24,58 +31,78 @@
 	var tint = Tint.getInstance();
 	tint.init();
 
+	var vibrance = Vibrance.getInstance();
+	vibrance.init();
+
+	var sepia = Sepia.getInstance();
+	sepia.init();
+
+	var decolorize = Decolorize.getInstance();
+	decolorize.init();
+
+	var alpha = Alpha.getInstance();
+	alpha.init();
+
 
 	function fileSelectHandler(event) {
 		if(file) {
-			handleFile(event.target.files[0]);				
+			setTimeout(function(){
+				handleFile(event.target.files[0]);	
+			},200)
+						
 		
 			//setInterval(mainApp, 500);
 			setTimeout(function(){
 				mainApp();
-			},1000);
+			},3000);
 			
 
 		}
 	}
 
-	var mainApp = function() {
-		var canvasInstance = InstaUi.getInstance();
+	var mainApp = function() {		
 		var context = canvasInstance.getContext();
-		var imageData = canvasInstance.getImageData();;
+		var imageData = canvasInstance.getImageData();
 		var data = imageData.data;
 		var copyData = imageData.data.slice();
 		canvasInstance.setCopyData(copyData);
+		
 		brightness.setBrightness(canvasInstance);
 		contrast.setContrast(canvasInstance);
 		gamma.setGamma(canvasInstance);
 		saturation.setSaturation(canvasInstance);
 		temperature.setTemperature(canvasInstance);
 		tint.setTint(canvasInstance);
-		createFilters();
-	
+		vibrance.setVibrance(canvasInstance);
+		sepia.setSepia(canvasInstance);
+		decolorize.setDecolor(canvasInstance);
+		alpha.setAlpha(canvasInstance);
 		//context.putImageData(imageData, 0, 0);
 	
 	}
 
 	var handleFile = function(file) {
 		var fr = new FileReader();
-		var context = InstaUi.getInstance().getContext();
+		var instaUi = InstaUi.getInstance();
+		var context = instaUi.getContext();
+
 		fr.addEventListener('load',function(event){
-			var imageData = ImageData.getInstance();
 			var url = event.target.result;
 			var img = new Image();
 			img.src = url;
-			imageData.setImage(img);
-			var width = img.width;
-			var height = img.height;
-			var aspectRatio = width/height;
-			var manipulationWidth = Util.getStyle(Util.getElement('col-2-left'),'width');
-			imageData.setImageHeight(IMAGE_HEIGHT);
-			imageData.setImageWidth(aspectRatio * IMAGE_HEIGHT);
-			var dx = (manipulationWidth - (aspectRatio * IMAGE_HEIGHT))/2;
+			
 			img.addEventListener('load', function(event){
+				var width = img.width;
+				var height = img.height;
+				var aspectRatio = width/height;
+				var canvasHeight = CANVAS_HEIGHT;
+				var canvasWidth = parseInt(aspectRatio * canvasHeight);
+				console.log("height",canvasHeight);
+				console.log("width",canvasWidth);
+				instaUi.setWidth(canvasWidth);
+				instaUi.setHeight(canvasHeight);
 				context.drawImage(
-					img, 0, 0, width, height, 0, 0, aspectRatio * IMAGE_HEIGHT, IMAGE_HEIGHT);
+					img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight);
 			});
 		});
 		if(file){
@@ -84,22 +111,20 @@
 		
 	}
 
-
-
 	var createFilters = function() {
-		for(var i =0; i < 9 ; i++) {
-			var filter = Filter.getInstance();
-			filter.init();
-			filter.setId(i);
-			filter.append();
-		}
+		var filterInstance = Filter.getInstance();
+		filterInstance.createFilters();
+		console.log(filterInstance);
 	}
 
+	function width(){
+   		return window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+	}
 
+	function height(){
+	   return window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
+	}
 
-
-	
-	
-	
+	createFilters();
 
 })();

@@ -82,8 +82,8 @@ var Brightness = (function() {
 			brightness.init();
 			brightness.setId('brightnessSlider');
 			brightness.setType('range');
-			brightness.setMaxValue('25');
-			brightness.setMinValue('-25');
+			brightness.setMaxValue('100');
+			brightness.setMinValue('-100');
 			brightness.setLabel('Brightness');
 			brightness.append();
 		}
@@ -106,12 +106,12 @@ var Brightness = (function() {
 			}
 
 			brightnessSlider.onchange = function(e) {
+				console.log("brightness value", e.target.value);
 				var copyData = canvasInstance.getCopyData();
 				var context = canvasInstance.getContext();
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
 				restoreImageData(data,copyData);
-				console.log('on change', e.target.value);
 				var sliderValue = parseFloat(e.target.value);
 				data = brightnessManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
@@ -134,7 +134,7 @@ var Brightness = (function() {
 				_data[i+2] =Util.truncate(_data[i+2] + s)//B
 			}
 			return _data;
-		}
+		}	
 
 	}
 	return {
@@ -157,8 +157,8 @@ var Contrast = (function() {
 			contrast.init();
 			contrast.setId('contrastSlider');
 			contrast.setType('range');
-			contrast.setMaxValue('25');
-			contrast.setMinValue('-25');
+			contrast.setMaxValue('50');
+			contrast.setMinValue('-50');
 			contrast.setLabel('Contrast');
 			contrast.append();
 		}
@@ -183,11 +183,11 @@ var Contrast = (function() {
 			}
 
 			contrastSlider.onchange = function(e) {
+				console.log("contrast value", e.target.value);
 				var copyData = canvasInstance.getCopyData(); 
 				var context = canvasInstance.getContext();
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
-
 				restoreImageData(data,copyData);
 				var sliderValue = parseFloat(e.target.value);
 				data = contrastManipulation(sliderValue, data);
@@ -240,7 +240,7 @@ var Gamma = (function() {
 			gamma.init();
 			gamma.setId('gammaSlider');
 			gamma.setType('range');
-			gamma.setMaxValue('3');
+			gamma.setMaxValue('2');
 			gamma.setMinValue('0.01');
 			gamma.setValue('1');
 			gamma.setStep('0.01');
@@ -265,6 +265,7 @@ var Gamma = (function() {
 			}
 
 			gammaSlider.onchange = function(e) {
+				console.log("gamma value", e.target.value);
 				var copyData = canvasInstance.getCopyData(); 
 				var context = canvasInstance.getContext();
 				var imageData = canvasInstance.getImageData();
@@ -347,6 +348,7 @@ var Saturation = (function() {
 			}
 
 			saturationSlider.onchange = function(e) {
+				console.log("saturation value", e.target.value);
 				var copyData = canvasInstance.getCopyData(); 
 				var context = canvasInstance.getContext();
 				var imageData = canvasInstance.getImageData();
@@ -369,7 +371,6 @@ var Saturation = (function() {
 		}
 
 		var saturationManipulation = function(s, _data) {
-			console.log('saturation manipulator');
 			var RW = 0.299;
 			var RG = 0.587;
 			var RB = 0.114;
@@ -415,8 +416,8 @@ var Temperature = (function() {
 			temperature.init();
 			temperature.setId('temperatureSlider');
 			temperature.setType('range');
-			temperature.setMaxValue('40');
-			temperature.setMinValue('-40');
+			temperature.setMaxValue('50');
+			temperature.setMinValue('-50');
 			temperature.setValue('0');
 			temperature.setLabel('Temperature');
 			temperature.append();
@@ -437,13 +438,13 @@ var Temperature = (function() {
 				restoreImageData(data, copyData);
 			}
 
-			temperatureSlider.onchange = function() {
+			temperatureSlider.onchange = function(e) {
+				console.log("temperature value", e.target.value);
 				var copyData = canvasInstance.getCopyData();
 				var context = canvasInstance.getContext();
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
 				restoreImageData(data,copyData);
-				console.log('on change', e.target.value);
 				var sliderValue = parseFloat(e.target.value);
 				data = temperatureManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
@@ -488,10 +489,10 @@ var Tint = (function() {
 			tint.init();
 			tint.setId('tintSlider');
 			tint.setType('range');
-			tint.setMaxValue('40');
-			tint.setMinValue('-40');
+			tint.setMaxValue('50');
+			tint.setMinValue('-50');
 			tint.setValue('0');
-			tint.setLabel('Tint');
+			tint.setLabel('Color Tint');
 			tint.append();
 		}
 
@@ -516,7 +517,7 @@ var Tint = (function() {
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
 				restoreImageData(data,copyData);
-				console.log('on change', e.target.value);
+				console.log('tint value', e.target.value);
 				var sliderValue = parseFloat(e.target.value);
 				data = tintManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
@@ -532,13 +533,13 @@ var Tint = (function() {
 			}
 		}
 
-		var tintManipulation = function(s, _data) {
-			for(var i=0; i< _data.length; i+=4) {
-				_data[i] = _data[i]//R
-				_data[i+1] = Util.truncate(_data[i] + s) //G
-				_data[i+2] =_data[i+2]//B
+		var tintManipulation = function(s, data) {
+			for(var i=0; i< data.length; i+=4) {
+				data[i] = data[i]//R
+				data[i+1] = Util.truncate(data[i+1] + s) //G
+				data[i+2] =data[i+2]//B
 			}
-			return _data;
+			return data;
 		}
 	}
 	return {
@@ -551,3 +552,340 @@ var Tint = (function() {
 		}
 	}
 })();
+
+var Vibrance = (function() {
+	var instance;
+	function Vibrance() {
+		var vibrance = Manipulator.getInstance();
+		
+		this.init = function() {
+			vibrance.init();
+			vibrance.setId('vibranceSlider');
+			vibrance.setType('range');
+			vibrance.setMaxValue('200');
+			vibrance.setMinValue('-200');
+			vibrance.setValue('0');
+			vibrance.setLabel('Vibrance');
+			vibrance.append();
+		}
+
+		this.setVibrance = function(canvasInstance) {
+			var vibranceSlider = document.getElementById('vibranceSlider');
+			
+			vibranceSlider.oninput = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				var sliderValue = parseFloat(e.target.value);
+				data = vibranceManipulation(sliderValue, data);
+				context.putImageData(imageData, 0, 0);
+				restoreImageData(data, copyData);
+			}
+
+			vibranceSlider.onchange = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				console.log('vibrance value', e.target.value);
+				var sliderValue = parseFloat(e.target.value);
+				data = vibranceManipulation(sliderValue, data);
+				context.putImageData(imageData, 0, 0);
+				canvasInstance.setCopyData(data.slice());
+			}
+		}
+
+		var restoreImageData = function(data, copyData) {
+			for(var i =0; i < data.length; i+=4){
+				data[i] = copyData[i];
+				data[i+1] = copyData[i+1];
+				data[i+2] = copyData[i+2];
+			}
+		}
+
+		var vibranceManipulation = function(s, data) {
+			for(var i = 0; i < data.length; i+=4) {
+				var r = data[i];
+				var g = data[i+1];
+				var b = data[i+2];
+				var max = Math.max(r, g, b);
+				var avg = (r + g + b) / 3;
+				var amt = ((Math.abs(max - avg) * 2 / 255) * s) / 100;
+				if (r < max) r = r + (max - data[i]) * amt;
+				if (g < max) g = g + (max - data[i+1]) * amt;
+				if (b < max) b = b + (max - data[i+2]) * amt;
+				data[i] = r;
+				data[i+1] = g;
+				data[i+2] = b;
+			}
+			return data;
+		}
+	}
+	return {
+
+		getInstance: function() {
+			if(instance == null) {
+				instance = new Vibrance();
+			}
+			return instance;
+		}
+	}
+})();
+
+var Sepia = (function() {
+	var instance;
+	function Sepia() {
+		var sepia = Manipulator.getInstance();
+		
+		this.init = function() {
+			sepia.init();
+			sepia.setId('sepiaSlider');
+			sepia.setType('range');
+			sepia.setMaxValue('10');
+			sepia.setMinValue('-10');
+			sepia.setValue('0');
+			sepia.setStep('0.01');
+			sepia.setLabel('Sepia');
+			sepia.append();
+		}
+
+		this.setSepia = function(canvasInstance) {
+			var sepiaSlider = document.getElementById('sepiaSlider');
+			
+			sepiaSlider.oninput = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				var sliderValue = parseFloat(e.target.value);
+				data = sepiaManipulation(sliderValue, data);
+				context.putImageData(imageData, 0, 0);
+				restoreImageData(data, copyData);
+			}
+
+			sepiaSlider.onchange = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				console.log('seipa', e.target.value);
+				var sliderValue = parseFloat(e.target.value);
+				data = sepiaManipulation(sliderValue, data);
+				context.putImageData(imageData, 0, 0);
+				canvasInstance.setCopyData(data.slice());
+			}
+		}
+
+		var restoreImageData = function(data, copyData) {
+			for(var i =0; i < data.length; i+=4){
+				data[i] = copyData[i];
+				data[i+1] = copyData[i+1];
+				data[i+2] = copyData[i+2];
+			}
+		}
+
+		var sepiaManipulation = function(s, data) {
+			for(var i = 0; i < data.length; i+=4) {
+				var r = data[i];
+				var g = data[i+1];
+				var b = data[i+2];
+				data[i] = Util.truncate((r * (1 - (0.607 * s))) + (g * (0.769 * s)) + (b * (0.189 * s)));
+				data[i+1] = Util.truncate((r * (0.349 * s)) + (g * (1 - (0.314 * s))) + (b * (0.168 * s)));
+				data[i+2] = Util.truncate((r * (0.272 * s)) + (g * (0.534 * s)) + (b * (1- (0.869 * s))));		
+			}
+			return data;
+		}
+	}
+	return {
+
+		getInstance: function() {
+			if(instance == null) {
+				instance = new Sepia();
+			}
+			return instance;
+		}
+	}
+})();
+
+var Decolorize = (function() {
+	var instance;
+	function Decolorize() {
+		var decolorize = Manipulator.getInstance();
+		
+		this.init = function() {
+			decolorize.init();
+			decolorize.setId('decolorizeSlider');
+			decolorize.setType('range');
+			decolorize.setMaxValue('255');
+			decolorize.setMinValue('0');
+			decolorize.setLabel('Decolorize');
+			decolorize.append();
+		}
+
+		this.setDecolor = function(canvasInstance) {
+			var decolorizeSlider = document.getElementById('decolorizeSlider');
+			
+			decolorizeSlider.oninput = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				var sliderValue = parseFloat(e.target.value);
+				data = decolorizeManipulation(sliderValue, data);
+				context.putImageData(imageData, 0, 0);
+				restoreImageData(data, copyData);
+			}
+
+			decolorizeSlider.onchange = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				console.log('decolorize', e.target.value);
+				var sliderValue = parseFloat(e.target.value);
+				data = decolorizeManipulation(sliderValue, data);
+				context.putImageData(imageData, 0, 0);
+				canvasInstance.setCopyData(data.slice());
+			}
+		}
+
+		var restoreImageData = function(data, copyData) {
+			for(var i =0; i < data.length; i+=4){
+				data[i] = copyData[i];
+				data[i+1] = copyData[i+1];
+				data[i+2] = copyData[i+2];
+			}
+		}
+
+		var decolorizeManipulation = function(s, data) {
+			s = s * 2.55;
+			var sbar = 255 - s;
+			for(var i = 0; i < data.length; i+=4) {
+				var r = data[i];
+				var g = data[i+1];
+				var b = data[i+2];	
+				if(r > sbar) {
+					r = 255;
+				} else if (r <= s){
+					r = 0;
+				}
+
+				if(g > sbar) {
+					g = 255;
+				} else if(g <= s){
+					g = 0;
+				}
+
+				if(b > sbar) {
+					b = 255;
+				} else if(b <= s) {
+					b = 0;
+				}
+				data[i] = r;
+				data[i+1] = g;
+				data[i+2] = b;
+			}
+			return data;
+		}
+
+	}
+	return {
+
+		getInstance: function() {
+			if(instance == null) {
+				instance = new Decolorize();
+			}
+			return instance;
+		}
+	}
+})();
+
+var Alpha = (function() {
+	var instance;
+	function Alpha() {
+		var alpha = Manipulator.getInstance();
+		
+		this.init = function() {
+			alpha.init();
+			alpha.setId('alphaSlider');
+			alpha.setType('range');
+			alpha.setMaxValue('255');
+			alpha.setMinValue('-255');
+			alpha.setValue('0');
+			alpha.setStep('0.01');
+			alpha.setLabel('Alpha Value');
+			alpha.append();
+		}
+
+		this.setAlpha = function(canvasInstance) {
+			var alphaSlider = document.getElementById('alphaSlider');
+			
+			alphaSlider.oninput = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				var sliderValue = parseFloat(e.target.value);
+				data = alphaManipulation(imageData.height, imageData.width, data);
+				context.putImageData(imageData, 0, 0);
+				restoreImageData(data, copyData);
+			}
+
+			alphaSlider.onchange = function(e) {
+				var copyData = canvasInstance.getCopyData();
+				var context = canvasInstance.getContext();
+				var imageData = canvasInstance.getImageData();
+				var data = imageData.data; //original data
+				restoreImageData(data,copyData);
+				console.log('alpha', e.target.value);
+				var sliderValue = parseFloat(e.target.value);
+				data = alphaManipulation(imageData.height, imageData.width, data);
+				context.putImageData(imageData, 0, 0);
+				canvasInstance.setCopyData(data.slice());
+			}
+		}
+
+		var restoreImageData = function(data, copyData) {
+			for(var i =0; i < data.length; i+=4){
+				data[i] = copyData[i];
+				data[i+1] = copyData[i+1];
+				data[i+2] = copyData[i+2];
+			}
+		}
+
+		var alphaManipulation = function(height,width, data) {
+			var count = 0;
+			console.log(data);
+			for(var i = 0; i < data.length; i+=4) {
+				//i is the number of pixel 
+				if(exponential(count) < width/2) {
+					data[i+3] = 0; 
+				}
+				count++;
+			}
+			return data;
+		}
+
+		var exponential = function(x) {
+			return 100 * Math.pow(x,5);
+		}
+	}
+	return {
+
+		getInstance: function() {
+			if(instance == null) {
+				instance = new Alpha();
+			}
+			return instance;
+		}
+	}
+})();
+

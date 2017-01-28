@@ -1,12 +1,15 @@
+
 div.filter {
 	width: 32.333333%;
 	height: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	border: 1px solid #dfdfdf;
 	float: left;
+	border: 1px solid black;
+	cursor: pointer;
 }
 
 div.filter: hover {
 	border-color: #afafaf;
 }
+
