@@ -1,12 +1,17 @@
 ;(function() {
 	//image height and width 4:3 ratio
-	var OFFSET = 1;
-	var CANVAS_WIDTH = parseInt(0.7 * width()); // 70% of window screen
-	var CANVAS_HEIGHT = parseInt(height()) - OFFSET;
-
+	var col2left = document.getElementsByClassName('col-2-left')[0];
+	var OFFSET = 5;
+	var MAX_CANVAS_HEIGHT = parseInt(height()) - OFFSET;
+	var canvasInstance = InstaUi.getInstance();
+	var downloadBtn = document.getElementById("downloadFile");
+	downloadBtn.addEventListener('click', download, false);
 	var file = document.getElementById('getFile');
 	file.addEventListener("change",fileSelectHandler, false);
-	var mainApp;
+	var mainApp = new MainApp();
+	mainApp.init();
+	var loader = document.getElementById('loader');
+	loader.style.display = "none";
 	var counter = 0;
 
 	var filterInstance = Filter.getInstance();
@@ -15,15 +20,15 @@
 	function fileSelectHandler(event) {
 		if(file) {
 			setTimeout(function(){
-				mainApp = new MainApp();
 				mainApp.handleFile(event.target.files[0]);	
 				counter++;
+				loader.style.display = "block";
 			},200)
 			//setInterval(mainApp, 500);
 			setTimeout(function(){
-				mainApp.init();
-
+				loader.style.display = "none";
 				mainApp.startProgram();
+
 			},2000);
 		}
 	}
@@ -92,10 +97,6 @@
 		var sepia = Sepia.getInstance();	
 
 		var decolorize = Decolorize.getInstance();
-
-		
-
-		var canvasInstance = InstaUi.getInstance();
 		
 		
 		this.init = function() {
@@ -143,8 +144,12 @@
 					var width = img.width;
 					var height = img.height;
 					var aspectRatio = width/height;
-					var canvasHeight = CANVAS_HEIGHT;
-					var canvasWidth = parseInt(aspectRatio * canvasHeight);
+					var canvasWidth = parseInt(getComputedStyle(col2left).getPropertyValue('width')) - OFFSET;
+					var canvasHeight = parseInt(canvasWidth/aspectRatio);
+					if(canvasHeight > MAX_CANVAS_HEIGHT) {
+						canvasHeight = MAX_CANVAS_HEIGHT;
+						canvasWidth = parseInt(aspectRatio * canvasHeight);
+					}
 					instaUi.setWidth(canvasWidth);
 					instaUi.setHeight(canvasHeight);
 					context.clearRect(0, 0, canvasWidth,canvasHeight);
@@ -157,6 +162,15 @@
 			}
 		}
 		
+	}
+
+	function download() {
+		var canvas = canvasInstance.getCanvas();
+		if(canvas != null) {
+			var dt = canvas.toDataURL('image/jpeg');
+			this.href = dt;			
+		}
+
 	}
 
 	function width() {

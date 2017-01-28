@@ -1,4 +1,52 @@
+.main-container-wrapper {
+	background-color: #212121;
+}
+.main-container {
+	width: 85em;
+	margin: 0 auto;
+}
 
+.col-2-left {
+	padding-top: 20px;
+}
+
+.col-2-right {
+	padding-top: 20px;
+	
+}
+
+.download-button {
+	position: absolute;
+	box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
+	transition: background-color .3s;
+	background-color: white;
+	height: 50px;
+	width: 50px;
+	border-radius: 25px;
+	top: 2%;
+	left: 60%;
+	text-align: center;
+}
+
+.download-button: hover {
+	box-shadow: 0 1px 4px rgba(255, 255, 255, .8);
+}
+
+.download-button a {
+	text-decoration: none;
+	color: #E91E63;
+	line-height: 50px;
+	display: block;
+	outline: 0;
+}
+
+.download-button :hover {
+	color: #F06292;
+}
+
+label {
+	display: block;
+}
 div.filter {
 	width: 32.333333%;
 	height: 10px;
