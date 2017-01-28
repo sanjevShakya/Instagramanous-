@@ -23,7 +23,6 @@ var View  = (function() {
 					if(instance == null) {
 						instance = new View();
 					}
-
 					return instance;
 				}
 			}
