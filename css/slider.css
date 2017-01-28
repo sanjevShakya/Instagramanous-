@@ -6,11 +6,12 @@ input[type=range] {
     border: 1px solid transparent;
     
     /*required for proper track sizing in FF*/
-    width: 75%;
+    width: 60%;
+    float: right;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-    width: 75%;
+    width: 100%;
     height: 5px;
     background: #ddd;
     border: none;
@@ -36,7 +37,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 input[type=range]::-moz-range-track {
-    width: 75%;
+    width: 100%;
     height: 5px;
     background: #ddd;
     border: none;
@@ -52,12 +53,12 @@ input[type=range]::-moz-range-thumb {
 
 /*hide the outline behind the border*/
 input[type=range]:-moz-focusring{
-    outline: 1px solid white;
+    outline: 1px dashed grey;
     outline-offset: -1px;
 }
 
 input[type=range]::-ms-track {
-    width: 75%;
+    width: 100%;
     height: 5px;
     
     /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */

@@ -15,6 +15,54 @@
 	
 }
 
+.manipulator {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 30px;
+}
+
+.number {
+	float: right;
+	width: auto;
+	padding-right: 13px;
+	color: #F06292;
+	font-weight: 600;
+}
+
+.file-button {
+	position: absolute;
+	box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
+	transition: background-color .3s;
+	background-color: white;
+	height: 50px;
+	width: 50px;
+	border-radius: 25px;
+	top: 2%;
+	left: 55%;
+	text-align: center;
+} 
+
+.file-button input[type=file] {
+	cursor: pointer;
+	filter: alpha(opacity=0);
+	opacity: 0;
+	height: 50px;
+    width: 50px;
+}
+
+.file-button .file-icon {
+	text-decoration: none;
+	color: #E91E63;
+	display: block;
+	outline: 0;
+	margin-top: -35px;
+}
+
+.file-button span:hover {
+	color: #F06292;
+}
+
+
 .download-button {
 	position: absolute;
 	box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
@@ -28,6 +76,7 @@
 	text-align: center;
 }
 
+
 .download-button: hover {
 	box-shadow: 0 1px 4px rgba(255, 255, 255, .8);
 }
@@ -40,12 +89,14 @@
 	outline: 0;
 }
 
-.download-button :hover {
+.download-button a:hover {
 	color: #F06292;
 }
 
 label {
-	display: block;
+	float: left;
+	width: auto;
+	padding-left: 10px;
 }
 div.filter {
 	width: 32.333333%;

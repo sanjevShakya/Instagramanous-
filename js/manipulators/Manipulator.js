@@ -17,7 +17,7 @@ var Manipulator = (function() {
 			this.labelElem = document.createElement('label');
 			this.slider = document.createElement('input');
 			this.element = document.createElement('div');
-			this.element.setAttribute('class','manipulator')
+			this.element.setAttribute('class','manipulator clearfix')
 			this.slider.setAttribute('autocomplete','off');
 			this.slider.setAttribute('value', '0');
 			this.sliderValue = document.createElement('span');
@@ -228,7 +228,7 @@ var Contrast = (function() {
 		}
 
 		var contrastManipulation = function(s, data) {
-			var factor = getCorrectionFactor(s);
+			var factor = (259 * (s + 255)) / (255 * (259 - s))
 			for(var i=0; i< data.length; i+=4) {			
 				data[i] = Util.truncate(factor * (data[i] - 128) + 128)//R
 				data[i+1] =Util.truncate(factor *(data[i+1] - 128) + 128) //G
@@ -236,10 +236,6 @@ var Contrast = (function() {
 			}
 			return data;
 		}
-
-		var getCorrectionFactor = function(value) {
-			return ((259 * (value + 255)) / (255 * (259 - value)))
-		} 
 
 	}
 	return {
@@ -315,7 +311,7 @@ var Gamma = (function() {
 		}
 
 		var gammaManipulation = function(s, data) {
-				var correctionFactor = getCorrectionFactor(s);
+				var correctionFactor = 1/s;
 				for(var i=0; i< data.length; i+=4) {			
 					data[i] = 255 * (Math.pow((data[i] / 255), correctionFactor))//R
 					data[i+1] = 255 * (Math.pow((data[i+1] / 255), correctionFactor)) //G
@@ -323,12 +319,6 @@ var Gamma = (function() {
 				}
 				return data
 		}
-
-
-		var getCorrectionFactor = function(value) {
-			return (1 / value);
-		} 
-
 	}
 	return {
 
@@ -655,12 +645,9 @@ var Vibrance = (function() {
 				var max = Math.max(r, g, b);
 				var avg = (r + g + b) / 3;
 				var amt = ((Math.abs(max - avg) * 2 / 255) * s) / 100;
-				if (r < max) r = r + (max - data[i]) * amt;
-				if (g < max) g = g + (max - data[i+1]) * amt;
-				if (b < max) b = b + (max - data[i+2]) * amt;
-				data[i] = r;
-				data[i+1] = g;
-				data[i+2] = b;
+				if (r < max) data[i] = r + (max - data[i]) * amt;
+				if (g < max) data[i+1] = g + (max - data[i+1]) * amt;
+				if (b < max) data[i+2] = b + (max - data[i+2]) * amt;
 			}
 			return data;
 		}
@@ -769,9 +756,8 @@ var Decolorize = (function() {
 			decolorize.setType('range');
 			decolorize.setMaxValue('255');
 			decolorize.setMinValue('0');
-			decolorize.setLabel('Decolorize');
 			decolorize.setValue('0');
-			
+			decolorize.setLabel('Decolorize');
 		}
 
 		this.setDecolor = function(canvasInstance) {
