@@ -6,6 +6,7 @@ var InstaUi = (function() {
 			var that = this;
 			var copyData;
 			var filterData;
+			var thumbnail;
 
 			this.setWidth = function(_width) {
 				console.log('canvas width', _width);
@@ -51,6 +52,12 @@ var InstaUi = (function() {
 			}
 			this.getFilterData = function() {
 				return filterData;
+			}
+			this.setThumbnail = function(_thumbnail) {
+				thumbnail = _thumbnail;
+			}
+			this.getThumbnail = function() {
+				return thumbnail;
 			}
 		}
 

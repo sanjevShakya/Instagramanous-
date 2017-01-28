@@ -25,6 +25,7 @@ var FilterMap = (function(){
 		this.setFilterMap = function(key, value) {
 			myFilterMap.set(key, value);
 		}
+
 	}
 
 	return {
@@ -270,226 +271,104 @@ var convolute = function(data,width, height, weights, opaque) {
 };
  //Filters
 
-var grayScale = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-
+var grayScale = function(data) {
 	var tempData = grayScaleManiputlation(data);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var threshold = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
+var threshold = function(data) {
 	var tempData = thresholdManipulation(data);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var blur = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var width = imageData.width;
-	var height = imageData.height;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
+var blur = function(data,width,height) {
 	var tempData = convolute(data,width,height,
 				[ 1/9, 1/9,  1/9,
     			 1/9,  1/9, 1/9,
     			 1/9, 1/9,  1/9 ], true);
-	restore(data, tempData);
-	canvasInstance.setFilterData(tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var sharpenFilter = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var width = imageData.width;
-	var height = imageData.height;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
+var sharpenFilter = function(data,width,height) {
 	var tempData = convolute(data,width,height,
 				[ 0, -1,  0,
     			  -1, 5, -1,
     			  0, -1,  0 ], true);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var usmFilter = function(canvasInstance) { //unsharp masking
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var width = imageData.width;
-	var height = imageData.height;
-	var copyData = canvasInstance.getCopyData();
-	restore(data,copyData); 
-	console.log("filter1 executed");
+var usmFilter = function(data, width, height) { //unsharp masking
 	var tempData = convolute(data,width,height,
 				[ -1/256, -2/256, -6/256, -4/256, -1/256,
     			  -4/256, -16/256, -24/256, -16/256, -4/256,
     			  -6/256, -24/256,  476/256, -24/256, -6/256, 
     			  -4/256, -16/256, -24/256, -16/256, -4/256,
     			  -1/256, -4/256, -6/256, -4/256, -1/256], true);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var normal = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	canvasInstance.setFilterData(copyData);
-	//clarendon algorithm brightness 10 temp 10 contrast 10 
-	context.putImageData(imageData, 0, 0);
+var normal = function(data) {
+	return data;
 }
 
-var clarendon = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//clarendon algorithm brightness 10 temp 10 contrast 10 
+var clarendon = function(data) {
 	var tempData = brightness(37, data);
 	tempData = contrast(28, tempData);
 	tempData = saturation(1.25, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var gingham = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//clarendon algorithm brightness 10 temp 10 contrast 10 
+var gingham = function(data) {
 	var tempData = brightness(38, data);
 	tempData = contrast(-38, tempData);
 	tempData = saturation(1.37, tempData);
 	tempData = gamma(0.96, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var moon = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//moon values 
+var moon = function(data) {
 	var tempData = brightness(67, data);
 	tempData = saturation(0, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData, 0, 0);
+	return tempData;
 }
 
-var lark = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//lark values
+var lark = function(data) {
 	var tempData = brightness(45, data);
 	tempData = contrast(17, tempData);
 	tempData = saturation(1.34, tempData);
 	tempData = gamma(0.57, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData,0,0);
+	return tempData;
 }
 
-var lipstick = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
+var lipstick = function(data) {
 	var tempData = lipstickManipulation(data);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData,0,0);
+	return tempData;
 }
 
-var colorize = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//lark values
+var colorize = function(data) {
 	var tempData = reduceColors(data);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData,0,0);
+	return tempData;
 }
 
-var reyes = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//lark values
+var reyes = function(data) {
 	var tempData = brightness(21, data);
 	tempData = gamma(2, tempData);
 	tempData = seipa(0.21, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData,0,0);
+	return tempData;
 }
 
-var juno = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//lark values
+var juno = function(data) {
 	var tempData = vibrance(-64, data);
 	tempData = gamma(1.92, tempData);
 	tempData = tint(18, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-	context.putImageData(imageData,0,0);
+	return tempData;
 }
 
-var slumber = function(canvasInstance) {
-	var imageData = canvasInstance.getImageData();
-	var context = canvasInstance.getContext();
-	var data = imageData.data;
-	var copyData = canvasInstance.getCopyData();
-	restore(data, copyData);
-	//lark values
+var slumber = function(data) {
 	var tempData = vibrance(-10, data);
 	tempData = gamma(1.25, tempData);
 	tempData = tint(21, tempData);
 	tempData = seipa(0.09, tempData);
 	tempData = contrast(33, tempData);
-	canvasInstance.setFilterData(tempData);
-	restore(data, tempData);
-
-	context.putImageData(imageData,0,0);
+	return tempData;
 }

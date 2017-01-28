@@ -35,10 +35,26 @@ var Filter = (function() {
 		function filterEventHandler(e) {
 			var filterMapInstance = FilterMap.getInstance();
 			var canvasInstance = InstaUi.getInstance();
+			var imageData = canvasInstance.getImageData();
+			var context = canvasInstance.getContext();
+			var data = imageData.data;
+			var copyData = canvasInstance.getCopyData();
+			restore(data, copyData);		
 			var map = filterMapInstance.getMyFilterMap();
 			var key = parseInt(e.target.id);
-			console.log("key:", e.target.id);
-			var value = map.get(key)(canvasInstance); //respective filter handled
+			var tempData = map.get(key)(data,imageData.width, imageData.height); //respective filter handled
+			canvasInstance.setFilterData(tempData);
+			restore(data, tempData);
+			context.putImageData(imageData, 0, 0);
+		}
+
+		var restore = function(previousdata, originaldata){
+			for(var i = 0; i < previousdata.length; i+=4) {
+				previousdata[i] = originaldata[i];
+				previousdata[i+1] = originaldata[i+1];
+				previousdata[i+2] = originaldata[i+2];
+			}
+			return previousdata;
 		}
 
 		this.createFilters = function() {
