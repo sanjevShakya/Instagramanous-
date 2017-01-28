@@ -153,6 +153,10 @@
 					instaUi.setWidth(canvasWidth);
 					instaUi.setHeight(canvasHeight);
 					context.clearRect(0, 0, canvasWidth,canvasHeight);
+					context.drawImage(img, 0,0,width,height,0,0,50,50);
+					var thumbnail = context.getImageData(0,0,50,50);
+					canvasInstance.setThumbnail(thumbnail);
+					context.clearRect(0, 0, canvasWidth,canvasHeight);
 					context.drawImage(
 						img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight);
 				});
