@@ -24,7 +24,7 @@
 				mainApp.init();
 
 				mainApp.startProgram();
-			},500);
+			},2000);
 		}
 	}
 
