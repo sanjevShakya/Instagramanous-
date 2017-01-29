@@ -3,26 +3,33 @@
 	var col2left = document.getElementsByClassName('col-2-left')[0];
 	var OFFSET = 5;
 	var MAX_CANVAS_HEIGHT = parseInt(height()) - OFFSET;
+
 	var canvasInstance = InstaUi.getInstance();
 	var context;
+
 	var downloadBtn = document.getElementById("downloadFile");
 	downloadBtn.addEventListener('click', download, false);
+
 	var file = document.getElementById('getFile');
 	file.addEventListener("change",fileSelectHandler, false);
+
 	var mainApp = new MainApp();
 	mainApp.init();
+
 	var loader = document.getElementById('loader');
 	loader.style.display = "none";
+
 	var counter = 0;
 	var instaUi = InstaUi.getInstance();
 
 	var filterInstance = Filter.getInstance();
+	filterInstance.setTitle();
 	filterInstance.createFilters();
+
 
 	function fileSelectHandler(event) {
 		if(file) {
-			setTimeout(function(){
-				
+			setTimeout(function(){		
 				if(counter >=1) {
 					context = canvasInstance.getContext();
 					context.clearRect(0, 0, canvasInstance.getWidth(),canvasInstance.getHeight());
@@ -43,52 +50,10 @@
 		}
 	}
 
-	var dropTarget = function(element) {
-		var ELEMENT = element;
-		var dropCallbacks = [];
-
-		var dragEventHandler = function(event) {
-			Util.addClass(ELEMENT, 'drag-active');
-			event.preventDefault();
-		};
-
-		var dragOverHandler = function(event) {
-			event.preventDefault();
-		};
-
-		var dragLeaveHandler = function(event) {
-			Util.removeClass(ELEMENT,'drag-active');
-		};
-
-		var dropHandler = function(event) {
-			event.preventDefault();
-			Util.removeClass(ELEMENT,'drag-active');
-
-			if(event.dataTransfer.files.length === 0) {
-				return;
-			}
-
-			var file = event.dataTransfer.files[0];
-			for(var callback of dropCallbacks) {
-				if(typeof callback === "function") {
-					callback(file);
-				}
-			}
-		};
-
-		this.addDropCallBack = function(callback) {
-			if(typeof callback === "function") {
-				dropCallbacks.push(callback);
-			}
-		};
-		ELEMENT.addEventListener('dragenter', dragEnterHandler);
-		ELEMENT.addEventListener('dragover', dragOverHandler);
-		ELEMENT.addEventListener('dragleave', dragLeaveHandler)
-		ELEMENT.addEventListener('drop', dropHandler);
-		this.element = ELEMENT;
-	};
-
 	function MainApp() {
+
+		var editBox = document.getElementsByClassName('edit-box-container')[0];
+		editBox.innerHTML = "<h2>Edit</h2>";
 
 		var brightness = Brightness.getInstance();
 		
@@ -182,9 +147,11 @@
 
 	function download() {
 		var canvas = canvasInstance.getCanvas();
+		var filename = "test.jpg";
 		if(canvas != null) {
 			var dt = canvas.toDataURL('image/jpeg');
-			this.href = dt;			
+			this.href = dt;	
+			this.download = filename;		
 		}
 
 	}

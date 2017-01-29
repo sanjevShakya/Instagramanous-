@@ -14,6 +14,10 @@ var Filter = (function() {
 			this.element.addEventListener('click',filterEventHandler, false);
 		}
 
+		this.setTitle = function(){
+			filterContainer.innerHTML = "<h2>Filters</h2>"
+		}
+
 		this.setId = function(_id) {
 			this.id = _id;
 			this.element.setAttribute('id',_id);

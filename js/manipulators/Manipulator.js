@@ -25,6 +25,10 @@ var Manipulator = (function() {
 			this.slider.disabled = true;
 		}
 
+		this.setTitle = function(title){
+			editBox.innerHTML = "<h2>Edit</h2>";
+		}
+
 		this.enableSlider = function() {
 			this.slider.disabled = false;
 		}

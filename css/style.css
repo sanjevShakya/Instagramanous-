@@ -1,5 +1,8 @@
-.main-container-wrapper {
+body {
 	background-color: #212121;
+}
+.main-container-wrapper {
+	
 }
 .main-container {
 	width: 85em;
@@ -93,6 +96,10 @@
 	color: #F06292;
 }
 
+.filter-container {
+	padding-top: 20px;
+}
+
 label {
 	float: left;
 	width: auto;
@@ -100,13 +107,16 @@ label {
 }
 div.filter {
 	width: 25%;
-	height: 50px;
+	height: 57px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	float: left;
-	outline: 1px solid white;
+	font-size: 15px;
+	font-weight: 600;
+	text-align: center;
+	color: #E91E63;
 	cursor: pointer;
-	background: center right no-repeat;
+	background: bottom center no-repeat;
 }
 
 div.filter: hover {
