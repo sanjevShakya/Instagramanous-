@@ -1,36 +1,36 @@
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 @font-face {
-	font-family: 'Bariol';
-	src: url('../fonts/Bariol.ttf');
+  font-family: 'Bariol';
+  src: url('../fonts/Bariol.ttf');
 }
 
 @font-face {
-	font-family: 'FontAwesome';
-	src: url('../fonts/fontawesome-webfont.ttf');
-	src: url('../fonts/fontawesome-webfont.eot');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.ttf');
+  src: url('../fonts/fontawesome-webfont.eot');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
-	font-family: 'Bariol', Arial, sans-serif;
-	color: #fff;
+  font-family: 'Bariol', Arial, sans-serif;
+  color: #fff;
 }
 
 /* Float padding fix */
 .clearfix:before, .clearfix:after {
-	content: "";
-	display: table;
+  content: "";
+  display: table;
 }
 
 .clearfix:after {
-	clear: both;
+  clear: both;
 }
 
 .clearfix {
-	zoom: 1; /* IE6&7 */ 
+  zoom: 1; /* IE6&7 */ 
 }

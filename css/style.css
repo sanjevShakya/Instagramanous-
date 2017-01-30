@@ -1,125 +1,148 @@
 body {
-	background-color: #212121;
+  background-color: #212121;
 }
 .main-container-wrapper {
-	
+  
 }
 .main-container {
-	width: 85em;
-	margin: 0 auto;
+  width: 85em;
+  margin: 0 auto;
 }
 
 .col-2-left {
-	padding-top: 20px;
+  padding-top: 20px;
 }
 
 .col-2-right {
-	padding-top: 20px;
-	
+  padding-top: 20px;
+  
 }
 
 .manipulator {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	padding-right: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 30px;
 }
 
 .number {
-	float: right;
-	width: auto;
-	padding-right: 13px;
-	color: #F06292;
-	font-weight: 600;
+  float: right;
+  width: auto;
+  padding-right: 13px;
+  color: #F06292;
+  font-weight: 600;
 }
 
 .file-button {
-	position: absolute;
-	box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
-	transition: background-color .3s;
-	background-color: white;
-	height: 50px;
-	width: 50px;
-	border-radius: 25px;
-	top: 2%;
-	left: 55%;
-	text-align: center;
+  position: absolute;
+  box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
+  transition: background-color .3s;
+  background-color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  top: 2%;
+  left: 55%;
+  text-align: center;
+  opacity: 0.8;
 } 
 
 .file-button input[type=file] {
-	cursor: pointer;
-	filter: alpha(opacity=0);
-	opacity: 0;
-	height: 50px;
-    width: 50px;
+  cursor: pointer;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  height: 50px;
+  width: 50px;
 }
 
 .file-button .file-icon {
-	text-decoration: none;
-	color: #E91E63;
-	display: block;
-	outline: 0;
-	margin-top: -35px;
+  text-decoration: none;
+  color: #E91E63;
+  display: block;
+  outline: 0;
+  margin-top: -35px;
 }
 
 .file-button span:hover {
-	color: #F06292;
+  color: #F06292;
 }
 
 
 .download-button {
-	position: absolute;
-	box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
-	transition: background-color .3s;
-	background-color: white;
-	height: 50px;
-	width: 50px;
-	border-radius: 25px;
-	top: 2%;
-	left: 60%;
-	text-align: center;
+  position: absolute;
+  box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
+  transition: background-color .3s;
+  background-color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  top: 2%;
+  left: 60%;
+  text-align: center;
+  opacity: 0.8;
 }
 
 
 .download-button: hover {
-	box-shadow: 0 1px 4px rgba(255, 255, 255, .8);
+  box-shadow: 0 1px 4px rgba(255, 255, 255, .8);
 }
 
 .download-button a {
-	text-decoration: none;
-	color: #E91E63;
-	line-height: 50px;
-	display: block;
-	outline: 0;
+  text-decoration: none;
+  color: #E91E63;
+  line-height: 50px;
+  display: block;
+  outline: 0;
 }
 
 .download-button a:hover {
-	color: #F06292;
+  color: #F06292;
 }
 
 .filter-container {
-	padding-top: 20px;
+  padding-top: 20px;
 }
 
 label {
-	float: left;
-	width: auto;
-	padding-left: 10px;
+  float: left;
+  width: auto;
+  padding-left: 10px;
 }
 div.filter {
-	width: 25%;
-	height: 57px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	float: left;
-	font-size: 15px;
-	font-weight: 600;
-	text-align: center;
-	color: #E91E63;
-	cursor: pointer;
-	background: bottom center no-repeat;
+  width: 25%;
+  height: 57px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  float: left;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  color: #E91E63;
+  cursor: pointer;
+  background: bottom center no-repeat;
 }
 
 div.filter: hover {
-	border-color: #afafaf;
+  border-color: #afafaf;
 }
 
+.btnRotation {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  background-color: white;
+  color: #E91E63;
+  text-align: center;
+  border-radius: 25px;
+  position: absolute;
+  cursor: pointer;
+  top: 2%;
+  opacity: 0.8;
+}
+
+#leftBtn {
+  left: 45%;
+}
+
+#rightBtn {
+  left: 50%;
+}
