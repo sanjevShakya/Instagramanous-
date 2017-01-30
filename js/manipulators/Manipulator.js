@@ -114,7 +114,7 @@ var Brightness = (function() {
 			
 			 //copy of imagedata
 			brightnessSlider.oninput = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				brightness.setSliderValue(sliderValue);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData();
@@ -136,10 +136,10 @@ var Brightness = (function() {
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
 				restoreImageData(data,filterData);
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				data = brightnessManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -194,7 +194,7 @@ var Contrast = (function() {
 			//copy of imagedata
 			var contrastSlider = document.getElementById('contrastSlider');
 			contrastSlider.oninput = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				contrast.setSliderValue(sliderValue);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData(); 		
@@ -215,11 +215,10 @@ var Contrast = (function() {
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
 				restoreImageData(data,filterData);
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				data = contrastManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
-
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -301,7 +300,7 @@ var Gamma = (function() {
 				var sliderValue = parseFloat(e.target.value);
 				data = gammaManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 
 		}
@@ -382,7 +381,7 @@ var Saturation = (function() {
 				var sliderValue = parseFloat(e.target.value);
 				data = saturationManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -451,7 +450,7 @@ var Temperature = (function() {
 			var temperatureSlider = document.getElementById('temperatureSlider');
 			temperature.enableSlider();
 			temperatureSlider.oninput = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				temperature.setSliderValue(sliderValue);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData();
@@ -472,10 +471,10 @@ var Temperature = (function() {
 				var imageData = canvasInstance.getImageData();
 				var data = imageData.data; //original data
 				restoreImageData(data,filterData);
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				data = temperatureManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -528,7 +527,7 @@ var Tint = (function() {
 			var tintSlider = document.getElementById('tintSlider');
 			tint.enableSlider();
 			tintSlider.oninput = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				tint.setSliderValue(sliderValue);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData();
@@ -542,7 +541,7 @@ var Tint = (function() {
 			}
 
 			tintSlider.onchange = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData();
 				var context = canvasInstance.getContext();
@@ -552,7 +551,7 @@ var Tint = (function() {
 				console.log('tint value', e.target.value);	
 				data = tintManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -605,7 +604,7 @@ var Vibrance = (function() {
 			var vibranceSlider = document.getElementById('vibranceSlider');
 			vibrance.enableSlider();
 			vibranceSlider.oninput = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				vibrance.setSliderValue(sliderValue);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData();
@@ -626,10 +625,10 @@ var Vibrance = (function() {
 				var data = imageData.data; //original data
 				restoreImageData(data,filterData);
 				console.log('vibrance value', e.target.value);
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				data = vibranceManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -713,7 +712,7 @@ var Sepia = (function() {
 				var sliderValue = parseFloat(e.target.value);
 				data = sepiaManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 
@@ -768,7 +767,7 @@ var Decolorize = (function() {
 			var decolorizeSlider = document.getElementById('decolorizeSlider');
 			decolorize.enableSlider();
 			decolorizeSlider.oninput = function(e) {
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				decolorize.setSliderValue(sliderValue);
 				//var copyData = canvasInstance.getCopyData();
 				var filterData = canvasInstance.getFilterData();
@@ -789,10 +788,10 @@ var Decolorize = (function() {
 				var data = imageData.data; //original data
 				restoreImageData(data,filterData);
 				console.log('decolorize', e.target.value);
-				var sliderValue = parseFloat(e.target.value);
+				var sliderValue = parseInt(e.target.value);
 				data = decolorizeManipulation(sliderValue, data);
 				context.putImageData(imageData, 0, 0);
-				canvasInstance.setCopyData(data.slice());
+				canvasInstance.setFilterData(data.slice());
 			}
 		}
 

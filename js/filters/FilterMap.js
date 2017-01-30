@@ -3,7 +3,7 @@ var FilterMap = (function(){
 	function FilterMap() {
 		var myFilterMap = new Map();
 		myFilterMap.set(0, normal);
-		myFilterMap.set(1, clarendon);
+		myFilterMap.set(1,	 clarendon);
 		myFilterMap.set(2, gingham);
 		myFilterMap.set(3, moon);
 		myFilterMap.set(4, lark);
@@ -17,6 +17,11 @@ var FilterMap = (function(){
 		myFilterMap.set(12, blur);
 		myFilterMap.set(13, sharpenFilter);
 		myFilterMap.set(14, usmFilter);
+		myFilterMap.set(15, xproII);
+		myFilterMap.set(16, sierra);
+		myFilterMap.set(17, inkwell);
+		myFilterMap.set(18, filter1997);
+		myFilterMap.set(19, ashby);
 
 		this.getMyFilterMap = function() {
 			return myFilterMap;
@@ -371,4 +376,45 @@ var slumber = function(data) {
 	tempData = seipa(0.09, tempData);
 	tempData = contrast(33, tempData);
 	return tempData;
+}
+
+var xproII = function(data) {
+	var tempData = brightness(10, data);
+	tempData = contrast(50, tempData);
+	tempData = tint(10, tempData);
+	tempData = vibrance(-45, tempData);
+	return tempData;
+}
+
+var sierra = function(data) {
+	var tempData = brightness(15, data);
+	tempData =  contrast(-32, tempData);
+	tempData = saturation(1.11, tempData);
+	tempData = gamma(1.29, tempData);
+	tempData = vibrance(-40, tempData);
+	return tempData;
+}
+
+var inkwell = function(data) {
+	var tempData = vibrance(74,data);
+	tempData = contrast(48, tempData);
+	tempData = brightness(4, tempData);
+	tempData = saturation(0, tempData);
+	return tempData;
+}
+
+var filter1997 = function(data) {
+	var tempData = brightness(28, data);
+	tempData = contrast(13, tempData);
+	tempData = gamma(1.24, tempData);
+	tempData = tint(-38, tempData);
+	return tempData;
+}
+
+var ashby = function(data) {
+	var tempData = brightness(11,data);
+	tempdata = saturation(1.37, tempData);
+	tempData = gamma(2, tempData);
+	tempData = vibrance(4, tempData);
+	return tempData
 }

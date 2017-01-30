@@ -1,4 +1,7 @@
-var filterNames = ["Normal","Clarendon","Gingham","Moon","Lark","Lipstick","Colorize","Reyes","Juno","Slumber","Grayscale", "Threshold","Blur", "Sharpen","Soft Sharpen"];
+var filterNames = ["Normal","Clarendon","Gingham","Moon","Lark","Lipstick",
+				   "Colorize","Reyes","Juno","Slumber","Grayscale", "Threshold",
+				   "Blur", "Sharpen","Soft Sharpen","X-pro II","Sierra","Inkwell",
+				   "1997","Ashby"];
 
 var Filter = (function() {
 	var instance;
@@ -41,7 +44,7 @@ var Filter = (function() {
 		}
 
 		this.createFilters = function() {
-			for(var i =0; i < 15 ; i++) {
+			for(var i =0; i < filterNames.length ; i++) {
 				this.init();
 				this.setId(i);
 				this.setFilterName(filterNames[i]);
