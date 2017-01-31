@@ -1,3 +1,6 @@
+/**
+* @return {InstaUi} instance - comprises of canvas, context, copyData stored for reference 
+*/
 var InstaUi = (function() {
   var instance;
   function InstaUi() {
@@ -9,12 +12,10 @@ var InstaUi = (function() {
     var thumbnail;
 
     this.setWidth = function(_width) {
-      console.log('canvas width', _width);
       canvas.width = _width;
     } 
 
     this.setHeight = function(_height) {
-      console.log('canvas height',_height);
       canvas.height = _height;
     }
 
@@ -35,7 +36,6 @@ var InstaUi = (function() {
     }
 
     this.setContext = function(_context) {
-      console.log('updated context');
       ctx = _context;
     }
 
@@ -44,7 +44,6 @@ var InstaUi = (function() {
     }
 
     this.setCopyData = function(_copy) {
-      console.log('copy data updated');
       copyData = _copy;
     }
 

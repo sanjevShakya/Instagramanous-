@@ -1,9 +1,16 @@
+/**
+  * @method FilterMap
+  * @return {FilterMap} instance
+*/
 var FilterMap = (function(){
   var instance; 
+  /**
+   * Repository for mapping id to respective filter function
+  */
   function FilterMap() {
     var myFilterMap = new Map();
     myFilterMap.set(0, normal);
-    myFilterMap.set(1,   clarendon);
+    myFilterMap.set(1, clarendon);
     myFilterMap.set(2, gingham);
     myFilterMap.set(3, moon);
     myFilterMap.set(4, lark);
@@ -23,10 +30,17 @@ var FilterMap = (function(){
     myFilterMap.set(18, filter1997);
     myFilterMap.set(19, ashby);
 
+    /**
+    * Get defined filter map 
+    * @return {Map} myFilterMap
+    */
     this.getMyFilterMap = function() {
       return myFilterMap;
     }
 
+    /**
+    * Set myFilterMap with key and value
+    */
     this.setFilterMap = function(key, value) {
       myFilterMap.set(key, value);
     }
@@ -43,17 +57,20 @@ var FilterMap = (function(){
   }
 })();
 
-var restore = function(previousdata, originaldata){
-  for(var i = 0; i < previousdata.length; i+=4) {
-    previousdata[i] = originaldata[i];
-    previousdata[i+1] = originaldata[i+1];
-    previousdata[i+2] = originaldata[i+2];
-  }
-  return previousdata;
-}
-
+/**
+  * array of color defined in r,g,b 
+*/
 var definedColors = [[0,0,0],[255,0,0],[0,128,0],[255,255,0],[0,0,255],[255,255,255]];
-//gives a nearest color based on ecludean distance
+
+/** 
+  * Find the nearest color from the definedColors array 
+  * find out the ecludean distance between the given rgb color with 
+  * the available definedColor and return the color from definedColor 
+  * @method findNearest
+  * @param {number} r 
+  * @param {number} g
+  * @param {number} b
+*/
 var findNearest = function(r,g,b) {
   var eDists = [];  
   for(var i =0; i < definedColors.length; i++) {
@@ -73,6 +90,12 @@ var findNearest = function(r,g,b) {
   return definedColors[position];
 }
 
+/**
+  * Reduce a pixels color to nearest color and replace it
+  * @method reduceColor 
+  * @param {Uint8Array} data - Imagedata
+  * @param {Uint8Array} data - Manipulated Data
+*/
 var reduceColors = function(data) {
   for(var i =0; i < data.length; i+=4) {
     var position =0;
@@ -87,6 +110,13 @@ var reduceColors = function(data) {
   return data;
 }
 
+/**
+  * Adjust brightness of the image by linearly increasing by a certain value
+  * @method brightness 
+  * @param {number} s - specified value
+  * @param {Uint8Array} data - Imagedata
+  * @param {Uint8Array} data - Manipulated Data
+*/
 var brightness = function(s, data) {
   for(var i=0; i< data.length; i+=4) {
     data[i] = Util.truncate(data[i] + s);//R
@@ -96,15 +126,13 @@ var brightness = function(s, data) {
   return data;
 }
 
-var brightnessExpRed = function(s, data) {
-  for(var i=0; i< data.length; i+=4) {
-    data[i] = data[i];//R
-    data[i+1] =Util.truncate(data[i+1] + s); //G
-    data[i+2] =Util.truncate(data[i+2] + s);//B
-  }
-  return data;
-}
-
+/**
+  * Adjust contrast of the image based on a correction factor 
+  * @method contrast 
+  * @param {number} s - specified value
+  * @param {Uint8Array} data - Imagedata
+  * @param {Uint8Array} data - Manipulated Data
+*/
 var contrast = function(s, data) {
   var factor = (259 * (s + 255)) / (255 * (259 - s));
   for(var i=0; i< data.length; i+=4) {      
@@ -115,6 +143,15 @@ var contrast = function(s, data) {
   return data;
 }
 
+/** 
+  * Ajust the intensity of the image based on the correction factor 
+  * correction factor is given by gamma the input value is raised to 
+  * the power of the inverse of gamma
+  * @method gamma
+  * @param {number} s - specified value
+  * @param {Uint8array} data - Imagedata
+  * @return {Uint8array} data - Manipulated Data 
+*/
 var gamma = function(s, data) {
   var correctionFactor = 1 / s;
   for(var i=0; i< data.length; i+=4) {      
@@ -125,6 +162,12 @@ var gamma = function(s, data) {
   return data;
 }
 
+/** 
+  * Change the red and blue component according to specified value
+  * @param {number} s - specified value
+  * @param {Uint8array} data - Imagedata
+  * @return {Uint8array} data - Manipulated Data 
+*/
 var temperature = function(s, data) {
   for(var i=0; i< data.length; i+=4) {
     data[i] = Util.truncate(data[i] + s)//R
@@ -134,6 +177,12 @@ var temperature = function(s, data) {
   return data;
 }
 
+/**
+* Saturate the color channel base on the Illuminace model Y 
+* @method lipstickManipulation
+* @param {Uint8array} data - Imagedata
+* @return {Uint8array} data - Manipulated data
+*/
 var saturation = function(s, data) {
   var RW = 0.299;
   var RG = 0.587;
@@ -159,6 +208,12 @@ var saturation = function(s, data) {
   return data;
 }
 
+/**
+* Grayscale all pixel value and leave except the red channel
+* @method lipstickManipulation
+* @param {Uint8array} data - Imagedata
+* @return {Uint8array} data - Manipulated data
+*/
 var lipstickManipulation = function(data) {
   for(var i = 0; i < data.length; i+=4) {
     var avg = (data[i] + data[i +1] + data[i +2]) / 3;
@@ -171,6 +226,13 @@ var lipstickManipulation = function(data) {
   return data;
 }
 
+/** 
+* change the green channel of RGB spatial image by certain linnear factor 
+* @method tint
+* @param {number} s - Specified value 
+* @param {Uint8array} data - Image data
+* @return {Uint8array} data - Manipulated data
+*/
 var tint = function(s, data) {
   for(var i=0; i< data.length; i+=4) {
     data[i] = data[i]//R
@@ -180,6 +242,14 @@ var tint = function(s, data) {
   return data;
 }
 
+/**
+* vibrance 
+* similar to saturation but will leave already saturated colors alone
+* prevents over saturation of the image
+* @param {number} s - Specified value for vibrance
+* @param {Uint8array} data - Image data
+* @return {Uint8array} data - Manipulated image data
+*/
 var vibrance = function(s, data) {
   for(var i = 0; i < data.length; i+=4) {
     var r = data[i];
@@ -198,6 +268,14 @@ var vibrance = function(s, data) {
   return data;
 }
 
+/**
+* seipa 
+* All three channels have special conversion factor by which seipa 
+* filter can be achieved 
+* @param {number} s - specified value of seipa 
+* @param {Uint8array} data - Image data
+* @param {Uint8array} data - Manipulated image data 
+*/
 var seipa = function(s, data) {
   for(var i = 0; i < data.length; i+=4) {
     var r = data[i];
@@ -210,6 +288,13 @@ var seipa = function(s, data) {
   return data;
 }
 
+/**
+* grayScaleManipulation 
+* Calculate average of R, G, B component of a pixel and replace 
+* all components by average
+* @param {Uint8array} data - Image data
+* @param {Uint8array} data - Manipulated image data;
+*/
 var grayScaleManiputlation = function(data) {
   for (var i = 0; i < data.length; i += 4) {
       var avg = (data[i] + data[i +1] + data[i +2]) / 3;
@@ -220,6 +305,13 @@ var grayScaleManiputlation = function(data) {
     return data;
 }
 
+/**
+ * thresholdManipulation
+ * Replace each pixel in an image with a black pixel if the intensity of 
+ * a grayscaled image is less than specified threshold constant.
+ * @param {Uint8array} data- Image data
+ * @return {Uint8array} data - Manipulated image data
+*/
 var thresholdManipulation = function(data) {
   var thres = 100;
     for (var i=0; i< data.length; i+=4) {
@@ -232,16 +324,30 @@ var thresholdManipulation = function(data) {
     return data;
 }
 
+/**
+ * Convolution 
+ * Also know as Kernel Image processing, process of adding each element
+ * of the image to its local neighbour. The function takes in a kernel matrix(weights)
+ * and other image. Then the process of flipping both the rows and columns of the kernel 
+ * and then applying normal matrix multiplication to similar entries and summing them.
+ * @param {Uint8array} data - image data on which filter applied
+ * @param {number} width - image width
+ * @param {number} height - image height
+ * @param {array} weights - kernel matrix
+ * @param {bool} opaque
+ * @return {Uint8array} data - convolution applied image data
+ */
 var convolute = function(data,width, height, weights, opaque) {
-
+  //length of the weight array
   var weightLength = Math.round(Math.sqrt(weights.length));
   var halfSide = Math.floor(weightLength/2);
+  // sw witdth of the image
   var sw = width;
+  // sh height of the image
   var sh = height;
   // pad output by the convolution matrix
   var w = width;
   var h = height;
-  var tempData = data.slice();
   // go through the destination image pixels
   var alphaFac = opaque ? 1 : 0;
   for (var y=0; y<h; y++) {
@@ -274,18 +380,38 @@ var convolute = function(data,width, height, weights, opaque) {
   }
   return data;
 };
- //Filters
 
+
+/**
+ * Filter effect grayscale
+ * Applies grayScaleManipulation to image data
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var grayScale = function(data) {
   var tempData = grayScaleManiputlation(data);
   return tempData;
 }
 
+/**
+ * Filter effect threshhold
+ * Applies theresholdmanipulation to image data
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var threshold = function(data) {
   var tempData = thresholdManipulation(data);
   return tempData;
 }
 
+/**
+ * Filter effect blur
+ * Applies convolution of a specified array to image data 
+ * @param {Uint8array} data - image data on which filter applied
+ * @param {width} - image width
+ * @param {height} - image height
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var blur = function(data,width,height) {
   var tempData = convolute(data,width,height,
         [ 1/9, 1/9,  1/9,
@@ -294,6 +420,14 @@ var blur = function(data,width,height) {
   return tempData;
 }
 
+/**
+ * Filter effect sharpenFilter
+ * Applies convolution of a specified array to image data 
+ * @param {Uint8array} data - image data on which filter applied
+ * @param {width} - image width
+ * @param {height} - image height
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var sharpenFilter = function(data,width,height) {
   var tempData = convolute(data,width,height,
         [ 0, -1,  0,
@@ -302,6 +436,14 @@ var sharpenFilter = function(data,width,height) {
   return tempData;
 }
 
+/**
+ * Filter effect usmFilter
+ * Applies convolution of a specified array to image data 
+ * @param {Uint8array} data - image data on which filter applied
+ * @param {width} - image width
+ * @param {height} - image height
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var usmFilter = function(data, width, height) { //unsharp masking
   var tempData = convolute(data,width,height,
         [ -1/256, -2/256, -6/256, -4/256, -1/256,
@@ -316,6 +458,11 @@ var normal = function(data) {
   return data;
 }
 
+/**
+ * Filter effect clarendon
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var clarendon = function(data) {
   var tempData = brightness(37, data);
   tempData = contrast(28, tempData);
@@ -323,6 +470,11 @@ var clarendon = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect gingham
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var gingham = function(data) {
   var tempData = brightness(38, data);
   tempData = contrast(-38, tempData);
@@ -331,12 +483,22 @@ var gingham = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect moon
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var moon = function(data) {
   var tempData = brightness(67, data);
   tempData = saturation(0, tempData);
   return tempData;
 }
 
+/**
+ * Filter effect lark
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var lark = function(data) {
   var tempData = brightness(45, data);
   tempData = contrast(17, tempData);
@@ -345,16 +507,31 @@ var lark = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect lipstick
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var lipstick = function(data) {
   var tempData = lipstickManipulation(data);
   return tempData;
 }
 
+/**
+ * Filter effect colorize
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var colorize = function(data) {
   var tempData = reduceColors(data);
   return tempData;
 }
 
+/**
+ * Filter effect reyes
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var reyes = function(data) {
   var tempData = brightness(21, data);
   tempData = gamma(2, tempData);
@@ -362,6 +539,11 @@ var reyes = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect juno
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var juno = function(data) {
   var tempData = vibrance(-64, data);
   tempData = gamma(1.92, tempData);
@@ -369,6 +551,11 @@ var juno = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect slumber
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var slumber = function(data) {
   var tempData = vibrance(-10, data);
   tempData = gamma(1.25, tempData);
@@ -378,6 +565,11 @@ var slumber = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect xproII
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var xproII = function(data) {
   var tempData = brightness(10, data);
   tempData = contrast(50, tempData);
@@ -386,6 +578,11 @@ var xproII = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect sierra
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var sierra = function(data) {
   var tempData = brightness(15, data);
   tempData =  contrast(-32, tempData);
@@ -395,6 +592,11 @@ var sierra = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect inkwell
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var inkwell = function(data) {
   var tempData = vibrance(74,data);
   tempData = contrast(48, tempData);
@@ -403,6 +605,11 @@ var inkwell = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect filter1997
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var filter1997 = function(data) {
   var tempData = brightness(28, data);
   tempData = contrast(13, tempData);
@@ -411,10 +618,15 @@ var filter1997 = function(data) {
   return tempData;
 }
 
+/**
+ * Filter effect ashby
+ * @param {Uint8array} data - image data on which filter applied
+ * @return {Uint8array} tempData - applied filter effects
+ */
 var ashby = function(data) {
   var tempData = brightness(11,data);
   tempdata = saturation(1.37, tempData);
   tempData = gamma(2, tempData);
   tempData = vibrance(4, tempData);
-  return tempData
+  return tempData; 
 }

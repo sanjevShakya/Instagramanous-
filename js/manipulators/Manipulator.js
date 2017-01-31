@@ -320,7 +320,7 @@ var Gamma = (function() {
           data[i+1] = 255 * (Math.pow((data[i+1] / 255), correctionFactor)) //G
           data[i+2] = 255 * (Math.pow((data[i+2] / 255), correctionFactor))//B
         }
-        return data
+        return data;
     }
   }
   return {

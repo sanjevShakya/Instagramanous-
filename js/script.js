@@ -1,7 +1,9 @@
 ;(function() {
   //image height and width 4:3 ratio
   var col2left = document.getElementsByClassName('col-2-left')[0];
+  // 5 pixel offset from bottom
   var OFFSET = 5;
+  // maximum height of canvas is visible portion of screen
   var MAX_CANVAS_HEIGHT = parseInt(height()) - OFFSET;
 
   var canvasInstance = InstaUi.getInstance();
@@ -10,6 +12,7 @@
   var downloadBtn = document.getElementById("downloadFile");
   downloadBtn.addEventListener('click', download, false);
 
+  // input type file button handler
   var file = document.getElementById('getFile');
   file.addEventListener("change",fileSelectHandler, false);
 
@@ -26,7 +29,10 @@
   filterInstance.setTitle();
   filterInstance.createFilters();
 
-
+  /**
+  * Image file select handler
+  * @method fileSelectHandler 
+  */
   function fileSelectHandler(event) {
     if(file) {
       setTimeout(function(){    
@@ -50,6 +56,9 @@
     }
   }
 
+  /**
+  * 
+  */
   function MainApp() {
 
     var editBox = document.getElementsByClassName('edit-box-container')[0];
@@ -73,7 +82,9 @@
 
     var decolorize = Decolorize.getInstance();
     
-    
+    /**
+    * Call initial values of all sliders
+    */
     this.init = function() {
       brightness.init();
       contrast.init();
@@ -141,9 +152,12 @@
         fr.readAsDataURL(file);
       }
     }
-    
   }
 
+  /**
+  * Convert canvas image to jpg file by dataURL
+  * @method download - Handler for download button cicked
+  */
   function download() {
     var canvas = canvasInstance.getCanvas();
     var filename = "test.jpg";
@@ -155,100 +169,20 @@
 
   }
 
+  /**
+  * @method width
+  * @return {number} - visible window width
+  */
   function width() {
       return window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
   }
 
+  /**
+  * @method height
+  * @return {number} - visible height of window
+  */
   function height(){
      return window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
   }
-
-  // var imageRotation = (function() {
-
-  //   var canvas = canvasInstance.getCanvas();
-  //   var context = canvasInstance.getContext();
-  //   var imageHeight = canvasInstance.getHeight();
-  //   var imageWidth = canvasInstance.getWidth();
-  //   var size = {
-  //       width: imageWidth,
-  //       height: imageHeight
-  //   };
-  //   var rotation = 0;
-  //   var degToRadian = Math.PI / 180;
-  //   var image = new Image();
-  //   var url = canvas.toDataURL('image/jpeg');
-  //   image.src = url;
-  //   image.addEventListener('load',function() {
-  //     imageHeight = image.height;
-  //     imageWidth = image.width;
-  //     size = {
-  //       width: imageWidth,
-  //       height: imageHeight
-  //     };
-  //     rotate();
-  //   });
-
-  //   function rotate() {
-  //     canvasInstance.setWidth(size.width);
-  //     canvasInstance.setHeight(size.height);
-
-  //     //center point of the canvas 
-  //     var cx = canvas.width/2 ;
-  //     var cy = canvas.height/2;
-  //     context.clearRect(0, 0, canvas.width, canvas.height);
-  //     context.translate(cx, cy);
-  //     context.rotate(rotation * degToRadian);
-  //     context.drawImage(image, -imageWidth/2, -imageHeight/2);  
-  //     updateCopyImage(); 
-  //   }
-
-  //   document.getElementById('clockwise').addEventListener('click',rotateClock,false);
-  //   document.getElementById('antiClockwise').addEventListener('click', rotateAntiClock, false);
-
-  //   function rotateClock() {
-  //     rotation += 90;
-  //     newSize(imageWidth, imageHeight, rotation);
-  //     rotate();
-  //   }
-
-  //   function rotateAntiClock() {
-  //     rotation -= 90;
-  //     newSize(imageWidth, imageHeight, rotation);
-  //     rotate();
-  //   }
-
-  //   function updateCopyImage() {
-  //     context = canvasInstance.getContext();
-  //     var imageData = canvasInstance.getImageData();
-  //     var filterData = canvasInstance.getFilterData();
-  //     var copyData = imageData.data.slice();
-  //     canvasInstance.setCopyData(copyData);
-  //     canvasInstance.setFilterData(copyData);
-  //   }
-
-  //   function restoreImageData (data, copyData) {
-  //     for(var i =0; i < data.length; i+=4){
-  //       data[i] = copyData[i];
-  //       data[i+1] = copyData[i+1];
-  //       data[i+2] = copyData[i+2];
-  //     }
-  //     return data;
-  //   }
-
-
-  //   function newSize(w, h, a) {
-  //     var rads = a * Math.PI / 180;
-  //     var c = Math.cos(rads);
-  //     var s = Math.sin(rads);
-  //     if (s < 0) {
-  //         s = -s;
-  //     }
-  //     if (c < 0) {
-  //         c = -c;
-  //     }
-  //     size.width = h * s + w * c;
-  //     size.height = h * c + w * s;
-  //   }   
-  // });
 
 })();

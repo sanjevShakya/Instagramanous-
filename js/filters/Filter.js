@@ -1,26 +1,48 @@
+/**
+* Names of predefined filters
+*/
 var filterNames = ["Normal","Clarendon","Gingham","Moon","Lark","Lipstick",
            "Colorize","Reyes","Juno","Slumber","Grayscale", "Threshold",
            "Blur", "Sharpen","Soft Sharpen","X-pro II","Sierra","Inkwell",
            "1997","Ashby"];
 
+/**
+* @return {Filter} instance - object of Filter 
+*/
 var Filter = (function() {
   var instance;
 
+  /**
+  * create filters from given filternames 
+  * create a div, set class as filter and adds event listener to it
+  * triggers the fillter effect event on basis of click event 
+  * apply filter effect based on the filters id
+  */
   function Filter() {
     var filterContainer = document.getElementsByClassName('filter-container')[0];
     this.element;
     this.id;
 
+    /**
+    * Create a filter div and add class to it 
+    * add eventlistener click to the div element
+    */
     this.init = function() {
       this.element = document.createElement('div');
       this.element.setAttribute('class','filter');
       this.element.addEventListener('click',filterEventHandler, false);
     }
 
+    /**
+    * Set title of the filterContainer
+    */
     this.setTitle = function(){
       filterContainer.innerHTML = "<h2>Filters</h2>"
     }
 
+    /**
+    * Set Id to a div element
+    */
     this.setId = function(_id) {
       this.id = _id;
       this.element.setAttribute('id',_id);
@@ -38,11 +60,20 @@ var Filter = (function() {
       this.element.innerHTML = _name;
     }
 
+    /**
+    * Set thumbnail image as background of a particular div 
+    * @params {number} i - Id of the filter element
+    * @params {DOMString} urlImage - data URI to thumbnail image
+    */
     this.setThumbnailImage = function(i, urlImage) {
       var elem = document.getElementById(i);
       elem.style.backgroundImage = "url("+urlImage+")";
     }
 
+    /**
+    * Creates predefined filters and set id to it
+    * Append generated filters div to DOM
+    */
     this.createFilters = function() {
       for(var i =0; i < filterNames.length ; i++) {
         this.init();
@@ -52,6 +83,12 @@ var Filter = (function() {
       }
     }
 
+
+    /**
+    * Filters applied to the thumbnail image 
+    * ImageData of processed thumbnail is then converted to DataUrl and send to set
+    * backbround of the div element 
+    */
     this.setFilterThumbnail = function() {
       var filterMapInstance = FilterMap.getInstance();
       var canvasInstance = InstaUi.getInstance();
@@ -60,8 +97,8 @@ var Filter = (function() {
       var context = canvasInstance.getContext();
       var data = thumbnail.data;
       var copyData = thumbnail.data.slice();
-      var width = 50;
-      var height = 50;
+      var width = 50; //Thumbnail width 50px
+      var height = 50;  //Thumnail height 50px
       
       for(var i =0; i < filterNames.length; i++) {
         restore(data,copyData);
@@ -83,6 +120,13 @@ var Filter = (function() {
       return previousdata;
     }
 
+    /**
+    * Acquire the target id of the filter element, this id is used as key 
+    * to get the respective filter and executed to get the filtered image.
+    * Once filter is applied to teh data the image data is put to the canvas.
+    * @method filterEventHandler 
+    * @param e 
+    */
     function filterEventHandler(e) {
       var filterMapInstance = FilterMap.getInstance();
       var canvasInstance = InstaUi.getInstance();
