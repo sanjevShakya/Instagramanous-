@@ -24,6 +24,10 @@
     left: 28%;
   }
 
+  .filter-title {
+    padding-left: 10px;
+  }
+
   .filter-container {
     overflow: auto;
     white-space: nowrap;
@@ -32,7 +36,12 @@
   .filter-container div {
     float: none;
     display: inline-block;
-    
+    padding-top: 0;
+  }
+
+  .edit-box-container {
+    padding-top: 20px;
+    padding-left: 10px;
   }
 
 }

@@ -20,6 +20,7 @@ var Filter = (function() {
   */
   function Filter() {
     var filterContainer = document.getElementsByClassName('filter-container')[0];
+    console.log(filterContainer);
     var filterMapInstance = FilterMap.getInstance();
     var canvasInstance = InstaUi.getInstance();
     this.element;
@@ -39,7 +40,7 @@ var Filter = (function() {
     * Set title of the filterContainer
     */
     this.setTitle = function(){
-      filterContainer.innerHTML = "<h2>Filters</h2>"
+      //filterContainerWrapper.text = "Filters"
     }
 
     /**
