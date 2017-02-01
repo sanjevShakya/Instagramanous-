@@ -8,4 +8,21 @@
     width: 100%;
   }
 
+  .download-button {
+    left: 80%;
+  }
+
+  .file-button {
+    left: 63%;
+  }
+
+  #rightBtn {
+    left: 46%;
+  }
+
+  #leftBtn {
+    left: 28%;
+  }
+
+
 }
