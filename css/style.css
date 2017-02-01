@@ -5,7 +5,7 @@ body {
   
 }
 .main-container {
-  width: 85em;
+  max-width: 85em;
   margin: 0 auto;
 }
 
