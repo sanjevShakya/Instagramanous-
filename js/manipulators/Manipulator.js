@@ -1,4 +1,6 @@
-
+/**
+* 
+*/
 var Manipulator = (function() {
   var instance;
   function Manipulator() {
@@ -152,10 +154,18 @@ var Brightness = (function() {
     }
 
     var brightnessManipulation = function(s, data) {
+      var maxValue = 255;
+      var minValue= 0;
       for(var i=0; i< data.length; i+=4) {
-        data[i] = Util.truncate(data[i] + s)//R
-        data[i+1] =Util.truncate(data[i+1] + s) //G
-        data[i+2] =Util.truncate(data[i+2] + s)//B
+        data[i] = (data[i] + s)//R
+        data[i+1] =(data[i+1] + s) //G
+        data[i+2] =(data[i+2] + s)//B
+        if(data[i] > maxValue) data[i] = maxValue;
+        if(data[i+1] > maxValue) data[i+1] = maxValue;
+        if(data[i+2] > maxValue) data[i+2] = maxValue;
+        if(data[i] < minValue) data[i] = minValue;
+        if(data[i+1] < minValue) data[i+1] = minValue;
+        if(data[i+2] < minValue) data[i+2] = minValue;
       }
       return data;
     } 
@@ -231,11 +241,20 @@ var Contrast = (function() {
     }
 
     var contrastManipulation = function(s, data) {
+      var maxValue = 255;
+      var minValue= 0;
+      var midValue = 128;
       var factor = (259 * (s + 255)) / (255 * (259 - s))
       for(var i=0; i< data.length; i+=4) {      
-        data[i] = Util.truncate(factor * (data[i] - 128) + 128)//R
-        data[i+1] =Util.truncate(factor *(data[i+1] - 128) + 128) //G
-        data[i+2] =Util.truncate(factor *(data[i+2] -128) + 128)//B
+        data[i] = (factor * (data[i] - midValue) + midValue)//R
+        data[i+1] =(factor *(data[i+1] - midValue) + midValue) //G
+        data[i+2] =(factor *(data[i+2] - midValue) + midValue)//B
+        if(data[i] > maxValue) data[i] = maxValue;
+        if(data[i+1] > maxValue) data[i+1] = maxValue;
+        if(data[i+2] > maxValue) data[i+2] = maxValue;
+        if(data[i] < minValue) data[i] = minValue;
+        if(data[i+1] < minValue) data[i+1] = minValue;
+        if(data[i+2] < minValue) data[i+2] = minValue;
       }
       return data;
     }
@@ -258,16 +277,14 @@ var Gamma = (function() {
     var gamma = Manipulator.getInstance();
     gamma.init();
     gamma.append();
+
     this.init = function() {
-      
       gamma.setId('gammaSlider');
       gamma.setType('range');
-      gamma.setMaxValue('2');
-      gamma.setMinValue('0.01');
-      gamma.setValue('1');
-      gamma.setStep('0.01');
+      gamma.setMaxValue('200');
+      gamma.setMinValue('0');
+      gamma.setValue('100');
       gamma.setLabel('Gamma');
-      
     }
 
     this.setGamma = function(canvasInstance) {
@@ -314,7 +331,7 @@ var Gamma = (function() {
     }
 
     var gammaManipulation = function(s, data) {
-        var correctionFactor = 1/s;
+        var correctionFactor = Math.round((100/s) * 10) / 10;
         for(var i=0; i< data.length; i+=4) {      
           data[i] = 255 * (Math.pow((data[i] / 255), correctionFactor))//R
           data[i+1] = 255 * (Math.pow((data[i+1] / 255), correctionFactor)) //G
@@ -488,9 +505,14 @@ var Temperature = (function() {
 
     var temperatureManipulation = function(s, data) {
       for(var i=0; i< data.length; i+=4) {
-        data[i] = Util.truncate(data[i] + s)//R
+        data[i] =(data[i] + s)//R
         //_data[i+1] = //G
-        data[i+2] =Util.truncate(data[i+2] - s)//B
+        data[i+2] =(data[i+2] - s)//B
+
+        if(data[i] > 255) data[i] = 255;
+        if(data[i+2] > 255) data[i+2] = 255;
+        if(data[i] < 0) data[i] = 0;
+        if(data[i+2] < 0) data[i+2] = 0;
       }
       return data;
     }
@@ -566,8 +588,10 @@ var Tint = (function() {
     var tintManipulation = function(s, data) {
       for(var i=0; i< data.length; i+=4) {
         data[i] = data[i]//R
-        data[i+1] = Util.truncate(data[i+1] + s) //G
+        data[i+1] = (data[i+1] + s) //G
         data[i+2] =data[i+2]//B
+        if(data[i+1] > 255) data[i+1] = 255;
+        if(data[i+1] < 0) data[i+1] = 0;
       }
       return data;
     }
@@ -729,9 +753,15 @@ var Sepia = (function() {
         var r = data[i];
         var g = data[i+1];
         var b = data[i+2];
-        data[i] = Util.truncate((r * (1 - (0.607 * s))) + (g * (0.769 * s)) + (b * (0.189 * s)));
-        data[i+1] = Util.truncate((r * (0.349 * s)) + (g * (1 - (0.314 * s))) + (b * (0.168 * s)));
-        data[i+2] = Util.truncate((r * (0.272 * s)) + (g * (0.534 * s)) + (b * (1- (0.869 * s))));    
+        data[i] = ((r * (1 - (0.607 * s))) + (g * (0.769 * s)) + (b * (0.189 * s)));
+        data[i+1] = ((r * (0.349 * s)) + (g * (1 - (0.314 * s))) + (b * (0.168 * s)));
+        data[i+2] = ((r * (0.272 * s)) + (g * (0.534 * s)) + (b * (1- (0.869 * s))));
+        if(data[i] > 255) data[i] = 255;
+        if(data[i+1] > 255) data[i+1] = 255;
+        if(data[i+2] > 255) data[i+2] = 255;
+        if(data[i] < 0) data[i] = 0;
+        if(data[i+1] < 0) data[i+1] = 0;
+        if(data[i+2] < 0) data[i+2] = 0;    
       }
       return data;
     }

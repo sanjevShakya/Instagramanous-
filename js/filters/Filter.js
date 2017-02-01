@@ -20,6 +20,8 @@ var Filter = (function() {
   */
   function Filter() {
     var filterContainer = document.getElementsByClassName('filter-container')[0];
+    var filterMapInstance = FilterMap.getInstance();
+    var canvasInstance = InstaUi.getInstance();
     this.element;
     this.id;
 
@@ -128,8 +130,6 @@ var Filter = (function() {
     * @param e 
     */
     function filterEventHandler(e) {
-      var filterMapInstance = FilterMap.getInstance();
-      var canvasInstance = InstaUi.getInstance();
       var imageData = canvasInstance.getImageData();
       var context = canvasInstance.getContext();
       var data = imageData.data;
@@ -138,7 +138,7 @@ var Filter = (function() {
       var map = filterMapInstance.getMyFilterMap();
       var key = parseInt(e.target.id);
       
-      var tempData = map.get(key)(data,imageData.width, imageData.height); //respective filter handled
+      var tempData = map.get(key)(data, imageData.width, imageData.height); //respective filter handled
       
       canvasInstance.setFilterData(tempData);
       restore(data, tempData);

@@ -118,13 +118,22 @@ var reduceColors = function(data) {
   * @param {Uint8Array} data - Manipulated Data
 */
 var brightness = function(s, data) {
+  var maxValue = 255;
+  var minValue = 0;
   for(var i=0; i< data.length; i+=4) {
-    data[i] = Util.truncate(data[i] + s);//R
-    data[i+1] =Util.truncate(data[i+1] + s); //G
-    data[i+2] =Util.truncate(data[i+2] + s);//B
+    data[i] = data[i] + s;//R
+    data[i+1] = data[i+1] + s; //G
+    data[i+2] =data[i+2] + s;//B
+    if(data[i] > maxValue) data[i] = maxValue;
+    if(data[i+1] > maxValue) data[i+1] = maxValue;
+    if(data[i+2] > maxValue) data[i+2] = maxValue;
+    if(data[i] < minValue) data[i] = minValue;
+    if(data[i+1] < minValue) data[i+1] = minValue;
+    if(data[i+2] < minValue) data[i+2] = minValue;
   }
   return data;
 }
+
 
 /**
   * Adjust contrast of the image based on a correction factor 
@@ -134,11 +143,19 @@ var brightness = function(s, data) {
   * @param {Uint8Array} data - Manipulated Data
 */
 var contrast = function(s, data) {
+  var maxValue = 255;
+  var minValue = 0;
   var factor = (259 * (s + 255)) / (255 * (259 - s));
   for(var i=0; i< data.length; i+=4) {      
-    data[i] = Util.truncate(factor * (data[i] - 128) + 128);//R
-    data[i+1] =Util.truncate(factor *(data[i+1] - 128) + 128); //G
-    data[i+2] =Util.truncate(factor *(data[i+2] -128) + 128);//B
+    data[i] =(factor * (data[i] - 128) + 128);//R
+    data[i+1] =(factor *(data[i+1] - 128) + 128); //G
+    data[i+2] =(factor *(data[i+2] -128) + 128);//B
+    if(data[i] > maxValue) data[i] = maxValue;
+    if(data[i+1] > maxValue) data[i+1] = maxValue;
+    if(data[i+2] > maxValue) data[i+2] = maxValue;
+    if(data[i] < minValue) data[i] = minValue;
+    if(data[i+1] < minValue) data[i+1] = minValue;
+    if(data[i+2] < minValue) data[i+2] = minValue;
   }
   return data;
 }
@@ -236,8 +253,10 @@ var lipstickManipulation = function(data) {
 var tint = function(s, data) {
   for(var i=0; i< data.length; i+=4) {
     data[i] = data[i]//R
-    data[i+1] = Util.truncate(data[i+1] + s) //G
+    data[i+1] = data[i+1] + s //G
     data[i+2] =data[i+2]//B
+    if(data[i+1] > 255) data[i+1] = 255;
+    if(data[i+1] < 0) data[i+1] = 0;
   }
   return data;
 }
@@ -281,9 +300,15 @@ var seipa = function(s, data) {
     var r = data[i];
     var g = data[i+1];
     var b = data[i+2];
-    data[i] = Util.truncate((r * (1 - (0.607 * s))) + (g * (0.769 * s)) + (b * (0.189 * s)));
-    data[i+1] = Util.truncate((r * (0.349 * s)) + (g * (1 - (0.314 * s))) + (b * (0.168 * s)));
-    data[i+2] = Util.truncate((r * (0.272 * s)) + (g * (0.534 * s)) + (b * (1- (0.869 * s))));    
+    data[i] = ((r * (1 - (0.607 * s))) + (g * (0.769 * s)) + (b * (0.189 * s)));
+    data[i+1] = ((r * (0.349 * s)) + (g * (1 - (0.314 * s))) + (b * (0.168 * s)));
+    data[i+2] = ((r * (0.272 * s)) + (g * (0.534 * s)) + (b * (1- (0.869 * s))));
+    if(data[i] > 255) data[i] = 255;
+    if(data[i+1] > 255) data[i+1] = 255;
+    if(data[i+2] > 255) data[i+2] = 255;
+    if(data[i] < 0) data[i] = 0;
+    if(data[i+1] < 0) data[i+1] = 0;
+    if(data[i+2] < 0) data[i+2] = 0;    
   }
   return data;
 }
@@ -314,14 +339,14 @@ var grayScaleManiputlation = function(data) {
 */
 var thresholdManipulation = function(data) {
   var thres = 100;
-    for (var i=0; i< data.length; i+=4) {
-    var r = data[i];
-    var g = data[i+1];
-    var b = data[i+2];
-    var v = (0.2126*r + 0.7152*g + 0.0722*b >= thres) ? 255 : 0;
+  var redV = 0.2126;
+  var greenV = 0.7152;
+  var blueV = 0.0722;
+  for (var i=0; i< data.length; i+=4) {
+    var v = (redV * data[i]  + greenV * data[i+1] + blueV * data[i+2] >= thres) ? 255 : 0;
     data[i] = data[i+1] = data[i+2] = v
-    }
-    return data;
+  }
+  return data;
 }
 
 /**
@@ -389,8 +414,7 @@ var convolute = function(data,width, height, weights, opaque) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var grayScale = function(data) {
-  var tempData = grayScaleManiputlation(data);
-  return tempData;
+  return grayScaleManiputlation(data);
 }
 
 /**
@@ -400,8 +424,7 @@ var grayScale = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var threshold = function(data) {
-  var tempData = thresholdManipulation(data);
-  return tempData;
+  return thresholdManipulation(data);
 }
 
 /**
@@ -464,10 +487,7 @@ var normal = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var clarendon = function(data) {
-  var tempData = brightness(37, data);
-  tempData = contrast(28, tempData);
-  tempData = saturation(1.25, tempData);
-  return tempData;
+  return saturation(1.25, contrast(28, brightness(37, data)));
 }
 
 /**
@@ -476,11 +496,7 @@ var clarendon = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var gingham = function(data) {
-  var tempData = brightness(38, data);
-  tempData = contrast(-38, tempData);
-  tempData = saturation(1.37, tempData);
-  tempData = gamma(0.96, tempData);
-  return tempData;
+  return gamma(0.96, saturation(1.37, contrast(-38, brightness(38, data))));
 }
 
 /**
@@ -489,9 +505,8 @@ var gingham = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var moon = function(data) {
-  var tempData = brightness(67, data);
-  tempData = saturation(0, tempData);
-  return tempData;
+  return saturation(0, brightness(67, data));
+
 }
 
 /**
@@ -500,11 +515,7 @@ var moon = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var lark = function(data) {
-  var tempData = brightness(45, data);
-  tempData = contrast(17, tempData);
-  tempData = saturation(1.34, tempData);
-  tempData = gamma(0.57, tempData);
-  return tempData;
+  return gamma(0.57, saturation(1.34, contrast(17, brightness(45, data))));
 }
 
 /**
@@ -513,8 +524,7 @@ var lark = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var lipstick = function(data) {
-  var tempData = lipstickManipulation(data);
-  return tempData;
+  return lipstickManipulation(data);
 }
 
 /**
@@ -523,8 +533,7 @@ var lipstick = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var colorize = function(data) {
-  var tempData = reduceColors(data);
-  return tempData;
+  return reduceColors(data);
 }
 
 /**
@@ -533,10 +542,7 @@ var colorize = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var reyes = function(data) {
-  var tempData = brightness(21, data);
-  tempData = gamma(2, tempData);
-  tempData = seipa(0.21, tempData);
-  return tempData;
+  return seipa(0.21, gamma(2, brightness(21, data)));
 }
 
 /**
@@ -545,10 +551,7 @@ var reyes = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var juno = function(data) {
-  var tempData = vibrance(-64, data);
-  tempData = gamma(1.92, tempData);
-  tempData = tint(18, tempData);
-  return tempData;
+  return tint(18, gamma(1.92, vibrance(-64, data)));
 }
 
 /**
@@ -557,12 +560,7 @@ var juno = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var slumber = function(data) {
-  var tempData = vibrance(-10, data);
-  tempData = gamma(1.25, tempData);
-  tempData = tint(21, tempData);
-  tempData = seipa(0.09, tempData);
-  tempData = contrast(33, tempData);
-  return tempData;
+  return contrast(33, seipa(0.09, tint(21, gamma(1.25, vibrance(-10, data)))));
 }
 
 /**
@@ -571,11 +569,7 @@ var slumber = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var xproII = function(data) {
-  var tempData = brightness(10, data);
-  tempData = contrast(50, tempData);
-  tempData = tint(10, tempData);
-  tempData = vibrance(-45, tempData);
-  return tempData;
+  return vibrance(-45, tint(10, contrast(50, brightness(10, data))));
 }
 
 /**
@@ -584,12 +578,7 @@ var xproII = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var sierra = function(data) {
-  var tempData = brightness(15, data);
-  tempData =  contrast(-32, tempData);
-  tempData = saturation(1.11, tempData);
-  tempData = gamma(1.29, tempData);
-  tempData = vibrance(-40, tempData);
-  return tempData;
+  return vibrance(-40, gamma(1.29, saturation(1.11, contrast(-32, brightness(15, data)))));
 }
 
 /**
@@ -598,11 +587,7 @@ var sierra = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var inkwell = function(data) {
-  var tempData = vibrance(74,data);
-  tempData = contrast(48, tempData);
-  tempData = brightness(4, tempData);
-  tempData = saturation(0, tempData);
-  return tempData;
+  return saturation(0, brightness(4, contrast(48, vibrance(74, data))));
 }
 
 /**
@@ -611,11 +596,7 @@ var inkwell = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var filter1997 = function(data) {
-  var tempData = brightness(28, data);
-  tempData = contrast(13, tempData);
-  tempData = gamma(1.24, tempData);
-  tempData = tint(-38, tempData);
-  return tempData;
+  return tint(-38, gamma(1.24, contrast(13, brightness(28, data))));
 }
 
 /**
@@ -624,9 +605,5 @@ var filter1997 = function(data) {
  * @return {Uint8array} tempData - applied filter effects
  */
 var ashby = function(data) {
-  var tempData = brightness(11,data);
-  tempdata = saturation(1.37, tempData);
-  tempData = gamma(2, tempData);
-  tempData = vibrance(4, tempData);
-  return tempData; 
+  return vibrance(4, gamma(2, saturation(1.37, brightness(11, data))));
 }
