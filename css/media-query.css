@@ -24,5 +24,15 @@
     left: 28%;
   }
 
+  .filter-container {
+    overflow: auto;
+    white-space: nowrap;
+  }
+
+  .filter-container div {
+    float: none;
+    display: inline-block;
+    
+  }
 
 }

@@ -100,6 +100,12 @@ body {
 
 .filter-container {
   padding-top: 20px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.filter-container div {
+  display: inline-block;
 }
 
 label {
