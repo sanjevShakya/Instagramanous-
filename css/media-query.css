@@ -1,4 +1,4 @@
-@media only screen and (max-width : 400px) {
+@media only screen and (max-width : 840px) {
 
   .col-2-left {
     width: 100%;
@@ -8,11 +8,10 @@
     width: 100%;
   }
 
-  .download-button {
+  .file-button {
     left: 80%;
   }
-
-  .file-button {
+  .download-button {
     left: 63%;
   }
 

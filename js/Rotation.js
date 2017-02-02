@@ -13,8 +13,8 @@ var Rotation = (function() {
   */
   function Rotation() {
     var canvasInstance = InstaUi.getInstance();
-    var canvas = canvasInstance.getCanvas();
     var context = canvasInstance.getContext();
+    var canvas = canvasInstance.getCanvas();
     var imageHeight = canvasInstance.getHeight();
     var imageWidth = canvasInstance.getWidth();
     var size = {
@@ -24,7 +24,7 @@ var Rotation = (function() {
     var rotation = 0;
     var degToRadian = Math.PI / 180;
     var image = new Image();
-    var url = canvas.toDataURL('image/jpeg');
+    var url;
     var container = document.getElementsByClassName('main-container-wrapper')[0];
     this.leftBtn;
     this.rightBtn
@@ -47,6 +47,13 @@ var Rotation = (function() {
       this.rightBtn.addEventListener("click", rotateClock, false);
       container.appendChild(this.leftBtn);
       container.appendChild(this.rightBtn);
+      updateImage();
+    }
+
+
+    var updateImage = function() {
+      url = canvas.toDataURL('image/jpeg');
+      console.log(url);
       image.src = url;
       image.addEventListener('load',function() {
         imageHeight = image.height;
@@ -63,20 +70,24 @@ var Rotation = (function() {
     * leftBtn click handler for clockwise rotation
     */
     function rotateClock() {
-      updateCopyImage(); 
+      //updateCopyImage();
       rotation += 90;
+      updateImage(); 
       newSize(imageWidth, imageHeight, rotation);
       rotate();
+      updateCopyImage(); 
     }
 
     /**
     * rightBtn click handler for anticlockwise rotation
     */
     function rotateAntiClock() {
-      updateCopyImage(); 
+      //updateCopyImage(); 
       rotation -= 90;
+      updateImage(); 
       newSize(imageWidth, imageHeight, rotation);
       rotate();
+      updateCopyImage(); 
     }
 
     /**
@@ -95,7 +106,6 @@ var Rotation = (function() {
       context.translate(cx, cy);
       context.rotate(rotation * degToRadian);
       context.drawImage(image, -imageWidth/2, -imageHeight/2);  
-      updateCopyImage(); 
     }
 
     /**
@@ -127,11 +137,11 @@ var Rotation = (function() {
       var filterData = canvasInstance.getFilterData();
       var context = canvasInstance.getContext();
       var imageData = canvasInstance.getImageData();
-      var data = imageData.data; //original data
+      var data = imageData.data; // original data
       var copyData = imageData.data.slice();
       filterData = restoreImageData(data,filterData);
-      canvasInstance.setFilterData(copyData); 
-      canvasInstance.setCopyData(copyData); 
+      canvasInstance.setFilterData(filterData); 
+      //canvasInstance.setCopyData(copyData); 
     }
 
     var restoreImageData = function(data, copyData) {

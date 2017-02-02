@@ -144,6 +144,7 @@ var Filter = (function() {
       canvasInstance.setFilterData(tempData);
       restore(data, tempData);
       context.putImageData(imageData, 0, 0);
+      //Rotation.getInstance().updateImage();
     }
 
   }

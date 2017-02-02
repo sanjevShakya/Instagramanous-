@@ -76,7 +76,6 @@ var Manipulator = (function() {
     }
 
     this.setSliderValue = function(value) {
-      console.log(this.slider, value);
       this.sliderValue.innerHTML = value;
     }
 
@@ -118,7 +117,6 @@ var Brightness = (function() {
       brightnessSlider.oninput = function(e) {
         var sliderValue = parseInt(e.target.value);
         brightness.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -126,13 +124,10 @@ var Brightness = (function() {
         restoreImageData(data,filterData);  
         data = brightnessManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);
-        //canvasInstance.setContext(context);
         restoreImageData(data, filterData);
       }
 
       brightnessSlider.onchange = function(e) {
-        console.log("brightness value", e.target.value);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -160,6 +155,7 @@ var Brightness = (function() {
         data[i] = (data[i] + s)//R
         data[i+1] =(data[i+1] + s) //G
         data[i+2] =(data[i+2] + s)//B
+        
         if(data[i] > maxValue) data[i] = maxValue;
         if(data[i+1] > maxValue) data[i+1] = maxValue;
         if(data[i+2] > maxValue) data[i+2] = maxValue;
@@ -206,7 +202,6 @@ var Contrast = (function() {
       contrastSlider.oninput = function(e) {
         var sliderValue = parseInt(e.target.value);
         contrast.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();    
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -218,8 +213,6 @@ var Contrast = (function() {
       }
 
       contrastSlider.onchange = function(e) {
-        console.log("contrast value", e.target.value);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData(); 
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -294,7 +287,6 @@ var Gamma = (function() {
       gammaSlider.oninput = function(e) {
         var sliderValue = parseFloat(e.target.value);
         gamma.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -306,8 +298,6 @@ var Gamma = (function() {
       }
 
       gammaSlider.onchange = function(e) {
-        console.log("gamma value", e.target.value);
-        //var copyData = canvasInstance.getCopyData(); 
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -374,22 +364,18 @@ var Saturation = (function() {
       var saturationSlider = document.getElementById('saturationSlider');
       saturationSlider.oninput = function(e) {
         var sliderValue = parseFloat(e.target.value);
-        saturation.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData(); 
+        saturation.setSliderValue(sliderValue); 
         var filterData = canvasInstance.getFilterData();      
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
         var data = imageData.data; //original data
-        restoreImageData(data,filterData);
-        
+        restoreImageData(data,filterData);       
         data = saturationManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);
         restoreImageData(data, filterData);
       }
 
       saturationSlider.onchange = function(e) {
-        console.log("saturation value", e.target.value);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData(); 
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -481,8 +467,6 @@ var Temperature = (function() {
       }
 
       temperatureSlider.onchange = function(e) {
-        console.log("temperature value", e.target.value);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -551,7 +535,6 @@ var Tint = (function() {
       tintSlider.oninput = function(e) {
         var sliderValue = parseInt(e.target.value);
         tint.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -564,13 +547,11 @@ var Tint = (function() {
 
       tintSlider.onchange = function(e) {
         var sliderValue = parseInt(e.target.value);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
         var data = imageData.data; //original data
-        restoreImageData(data,filterData);
-        console.log('tint value', e.target.value);  
+        restoreImageData(data,filterData); 
         data = tintManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);
         canvasInstance.setFilterData(data.slice());
@@ -630,7 +611,6 @@ var Vibrance = (function() {
       vibranceSlider.oninput = function(e) {
         var sliderValue = parseInt(e.target.value);
         vibrance.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
@@ -642,13 +622,11 @@ var Vibrance = (function() {
       }
 
       vibranceSlider.onchange = function(e) {
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
         var data = imageData.data; //original data
         restoreImageData(data,filterData);
-        console.log('vibrance value', e.target.value);
         var sliderValue = parseInt(e.target.value);
         data = vibranceManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);
@@ -713,13 +691,11 @@ var Sepia = (function() {
       sepiaSlider.oninput = function(e) {
         var sliderValue = parseFloat(e.target.value);
         sepia.setSliderValue(sliderValue);
-        //var copyData = canvasInstance.getCopyData();
         var filterData = canvasInstance.getFilterData();
         var context = canvasInstance.getContext();
         var imageData = canvasInstance.getImageData();
         var data = imageData.data; //original data
-        restoreImageData(data,filterData);
-        
+        restoreImageData(data,filterData);     
         data = sepiaManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);
         restoreImageData(data, filterData);
@@ -732,7 +708,6 @@ var Sepia = (function() {
         var imageData = canvasInstance.getImageData();
         var data = imageData.data; //original data
         restoreImageData(data,filterData);
-        console.log('seipa', e.target.value);
         var sliderValue = parseFloat(e.target.value);
         data = sepiaManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);
@@ -784,7 +759,6 @@ var Decolorize = (function() {
     decolorize.init();
     decolorize.append();
     this.init = function() {
-      console.log('decolorize inited');
       decolorize.setId('decolorizeSlider');
       decolorize.setType('range');
       decolorize.setMaxValue('255');
@@ -817,7 +791,6 @@ var Decolorize = (function() {
         var imageData = canvasInstance.getImageData();
         var data = imageData.data; //original data
         restoreImageData(data,filterData);
-        console.log('decolorize', e.target.value);
         var sliderValue = parseInt(e.target.value);
         data = decolorizeManipulation(sliderValue, data);
         context.putImageData(imageData, 0, 0);

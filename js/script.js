@@ -9,6 +9,9 @@
   var canvasInstance = InstaUi.getInstance();
   var context;
 
+  var downloadDiv = document.getElementsByClassName("download-button")[0];
+  downloadDiv.style.display = "none";
+  
   var downloadBtn = document.getElementById("downloadFile");
   downloadBtn.addEventListener('click', download, false);
 
@@ -29,6 +32,9 @@
   filterInstance.setTitle();
   filterInstance.createFilters();
 
+  // For unique file names
+  var filename;
+
   /**
   * Image file select handler
   * @method fileSelectHandler 
@@ -39,10 +45,12 @@
         if(counter >=1) {
           context = canvasInstance.getContext();
           context.clearRect(0, 0, canvasInstance.getWidth(),canvasInstance.getHeight());
+          //used for extracting thumbnail when 2nd file is chosen
           instaUi.setWidth(50);
           instaUi.setHeight(50);
-          console.log("cleared Canvas");
         }
+        //extract file name from loaded file
+        filename = event.target.files[0].name.split(".")[0];
         mainApp.handleFile(event.target.files[0]);  
         counter++;
         loader.style.display = "block";
@@ -51,7 +59,7 @@
       setTimeout(function(){
         loader.style.display = "none";
         mainApp.startProgram();
-
+        downloadDiv.style.display ="block";
       },2000);
     }
   }
@@ -97,7 +105,11 @@
       decolorize.init();
     }
     
-
+    /**
+    * Makes a copy of imageData and then instantiate all the sliders,
+    * and rotation function
+    * @method startProgram 
+    */
     this.startProgram = function() {  
       context = canvasInstance.getContext();
       var imageData = canvasInstance.getImageData();
@@ -117,6 +129,13 @@
       Rotation.getInstance().init();
     }
 
+    /**
+    * Create a new image file from previously loaded image and
+    * preserve the aspect ratio of the image and draw the canvas 
+    * according to the image width and height
+    * @method handleFile
+    * @param {Object} file 
+    */
     this.handleFile = function(file) {
       var fr = new FileReader();
       context = instaUi.getContext();
@@ -151,22 +170,23 @@
       if(file){
         fr.readAsDataURL(file);
       }
+      // After the image is loaded the main app is started
     }
   }
 
   /**
   * Convert canvas image to jpg file by dataURL
+  * use previous filename with app name and make a jpg file
   * @method download - Handler for download button cicked
   */
   function download() {
     var canvas = canvasInstance.getCanvas();
-    var filename = "test.jpg";
+    var tempFilename = filename + "-instagramanous.jpg";
     if(canvas != null) {
       var dt = canvas.toDataURL('image/jpeg');
       this.href = dt; 
-      this.download = filename;   
+      this.download = tempFilename;   
     }
-
   }
 
   /**
