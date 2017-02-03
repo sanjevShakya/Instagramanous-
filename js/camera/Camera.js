@@ -48,40 +48,49 @@ var Camera = (function() {
           camera.play();
 
           document.addEventListener('keydown', cameraClicked, false);
+          document.addEventListener('touchstart', touchEventHandler, false);
         });
       }
       
     }
 
-    function cameraClicked(e) {
+    function touchEventHandler(e) {
+      clickPicture();
+    }
+
+    function cameraClicked(e) {  
+      if(e.keyCode == 32) {
+       clickPicture();
+      }
+    }
+
+    var clickPicture = function() {
       var canvas = canvasInstance.getCanvas();
       camera = document.getElementById('camera');
       var mainApp = MainApp.getInstance();
       cameraHolder = document.getElementById('cameraHolder');
-      if(e.keyCode == 32) {
-        context = canvasInstance.getContext();
-        context.drawImage(camera, 0, 0, cameraWidth, cameraHeight);
-        //make image file 
-        var image = new Image(cameraWidth, cameraHeight);
-        var url = canvas.toDataURL('image/jpeg');
-        image.src = url;
-        mainApp.handleImage(image, context);
-        //make image file 
+      context = canvasInstance.getContext();
+      context.drawImage(camera, 0, 0, cameraWidth, cameraHeight);
+      //make image file 
+      var image = new Image(cameraWidth, cameraHeight);
+      var url = canvas.toDataURL('image/jpeg');
+      image.src = url;
+      mainApp.handleImage(image, context);
+      //make image file 
 
-        context.clearRect(0, 0, cameraWidth, cameraHeight);
-        canvasInstance.setHeight(50);
-        canvasInstance.setWidth(50);
-        camera.pause();
-        camera.src="";
-        localstream.getTracks()[0].stop();
-        camera.setAttribute('disabled','true');
-        camera.style.display = "none"; 
-        camera.setAttribute('height','0');
-        camera.setAttribute('width','0');
-        setTimeout(function(){
-          mainApp.startProgram();
-        },1000);
-      }
+      context.clearRect(0, 0, cameraWidth, cameraHeight);
+      canvasInstance.setHeight(50);
+      canvasInstance.setWidth(50);
+      camera.pause();
+      camera.src="";
+      localstream.getTracks()[0].stop();
+      camera.setAttribute('disabled','true');
+      camera.style.display = "none"; 
+      camera.setAttribute('height','0');
+      camera.setAttribute('width','0');
+      setTimeout(function(){
+        mainApp.startProgram();
+      },1000);
     }
   }
   return {

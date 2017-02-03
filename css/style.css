@@ -79,8 +79,8 @@ body {
   height: 50px;
   width: 50px;
   border-radius: 25px;
-  top: 2%;
-  left: 55%;
+  top: 18%;
+  left: 60%;
   text-align: center;
   opacity: 0.8;
 }
@@ -110,16 +110,15 @@ label {
 
 div.filter {
   width: 25%;
-  height: 57px;
-  padding-top: 15px;
-  padding-bottom: 10px;
+  padding-top: 52px;
+  margin-bottom: 10px;
   float: left;
   font-size: 15px;
   font-weight: 600;
   text-align: center;
   color: #E91E63;
   cursor: pointer;
-  background: bottom center no-repeat;
+  background: top center no-repeat;
 }
 
 div.filter: hover {
@@ -136,16 +135,16 @@ div.filter: hover {
   border-radius: 25px;
   position: absolute;
   cursor: pointer;
-  top: 2%;
+  left: 60%;
   opacity: 0.8;
 }
 
 #leftBtn {
-  left: 45%;
+  top: 26%;
 }
 
 #rightBtn {
-  left: 50%;
+  top: 34%;
 }
 
 video {

@@ -126,6 +126,23 @@ var MainApp = (function() {
       });
     }
 
+    this.resetSliders = function() {
+      brightness.resetSlider();
+      contrast.resetSlider();
+      saturation.resetSlider();
+      gamma.resetSlider();
+      temperature.resetSlider();
+      tint.resetSlider();
+      vibrance.resetSlider();
+      sepia.resetSlider();
+      decolorize.resetSlider();
+      var numbers = document.getElementsByClassName('number');
+      console.log(numbers);
+      for(var i; i < numbers.length; i++) {
+        numbers[i].innerHTML = "" ;
+      }
+    }
+
 
   }
 

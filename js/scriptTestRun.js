@@ -26,8 +26,10 @@
   var cameraInstance = Camera.getInstance();
   cameraInstance.init();
   cameraInstance.append();
+
   // For unique file names
   var filename;
+
   /**
   * Image file select handler
   * @method fileSelectHandler 
@@ -37,6 +39,7 @@
       setTimeout(function(){
         //extract file name from loaded file
         filename = event.target.files[0].name.split(".")[0];
+        mainApp.resetSliders();
         mainApp.handleFile(event.target.files[0]);  
         counter++;
         loader.style.display = "block";
@@ -45,12 +48,9 @@
       setTimeout(function(){
         loader.style.display = "none";
         mainApp.startProgram();
-        downloadDiv.style.display ="block";
       },2000);
     }
   }
-
-
 
   /**
   * Convert canvas image to jpg file by dataURL

@@ -106,7 +106,10 @@ var Brightness = (function() {
       brightness.setMinValue('-100');
       brightness.setValue('0');
       brightness.setLabel('Brightness');
-      
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('brightnessSlider').value = "0";
     }
 
     this.setBrightness = function(canvasInstance) {
@@ -193,8 +196,11 @@ var Contrast = (function() {
       contrast.setMaxValue('50');
       contrast.setMinValue('-50');
       contrast.setValue('0');
-      contrast.setLabel('Contrast');
-      
+      contrast.setLabel('Contrast');   
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('contrastSlider').value = "0";
     }
 
     this.setContrast = function(canvasInstance) {
@@ -284,6 +290,10 @@ var Gamma = (function() {
       gamma.setLabel('Gamma');
     }
 
+    this.resetSlider = function() {
+      document.getElementById('gammaSlider').value = "100";
+    }
+
     this.setGamma = function(canvasInstance) {
       gamma.enableSlider();
       var gammaSlider = document.getElementById('gammaSlider');
@@ -353,8 +363,7 @@ var Saturation = (function() {
     var saturation = Manipulator.getInstance();
     saturation.init();
     saturation.append();
-    this.init = function() {
-      
+    this.init = function() {   
       saturation.setId('saturationSlider');
       saturation.setType('range');
       saturation.setMaxValue('2');
@@ -363,6 +372,10 @@ var Saturation = (function() {
       saturation.setStep('0.01');
       saturation.setLabel('Saturation');
       
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('saturationSlider').value = "1";
     }
 
     this.setSaturation = function(canvasInstance) {
@@ -454,7 +467,10 @@ var Temperature = (function() {
       temperature.setMinValue('-50');
       temperature.setValue('0');
       temperature.setLabel('Temperature');
-      
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('temperatureSlider').value = "0";
     }
 
     this.setTemperature = function(canvasInstance) {
@@ -540,6 +556,10 @@ var Tint = (function() {
       
     }
 
+    this.resetSlider = function() {
+      document.getElementById('tintSlider').value = "0";
+    }
+
     this.setTint = function(canvasInstance) {
       var tintSlider = document.getElementById('tintSlider');
       tint.enableSlider();
@@ -617,6 +637,10 @@ var Vibrance = (function() {
       vibrance.setValue('0');
       vibrance.setLabel('Vibrance');
       
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('vibranceSlider').value = "0";
     }
 
     this.setVibrance = function(canvasInstance) {
@@ -700,6 +724,10 @@ var Sepia = (function() {
       sepia.setStep('0.01');
       sepia.setLabel('Sepia');
       
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('sepiaSlider').value = "0";
     }
 
     this.setSepia = function(canvasInstance) {
@@ -787,11 +815,16 @@ var Decolorize = (function() {
       decolorize.setLabel('Decolorize');
     }
 
+    this.resetSlider = function() {
+      document.getElementById('decolorizeSlider').value = "0";
+    }
+
     this.setDecolor = function(canvasInstance) {
       var decolorizeSlider = document.getElementById('decolorizeSlider');
       decolorize.enableSlider();
       decolorizeSlider.addEventListener('input', showDecolorize, false);
       decolorizeSlider.addEventListener('change', changeDecolorize, false);
+
       function showDecolorize(e) {
         var sliderValue = parseInt(e.target.value);
         decolorize.setSliderValue(sliderValue);

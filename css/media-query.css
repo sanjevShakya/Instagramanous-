@@ -2,26 +2,42 @@
 
   .col-2-left {
     width: 100%;
+    padding-top: 75px;
   }
 
   .col-2-right {
     width: 100%;
+    
   }
 
   .file-button {
-    left: 80%;
-  }
-  .download-button {
-    left: 63%;
+    top: 2%;
+    left: 5%;
   }
 
-  #rightBtn {
-    left: 46%;
+  #cameraBtn {
+    top: 2%;
+    left: 20%;
+  }
+
+  .download-button {
+    top: 2%;
+    left: 35%;
   }
 
   #leftBtn {
-    left: 28%;
+    top: 2%;
+    left: 50%;
   }
+
+  #rightBtn {
+    top: 2%;
+    left: 65%;
+  }
+
+  
+
+  
 
   .filter-title {
     padding-left: 10px;
@@ -35,7 +51,6 @@
   .filter-container div {
     float: none;
     display: inline-block;
-    padding-top: 0;
   }
 
   .edit-box-container {
