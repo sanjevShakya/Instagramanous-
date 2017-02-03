@@ -32,6 +32,10 @@
   filterInstance.setTitle();
   filterInstance.createFilters();
 
+  var cameraInstance = Camera.getInstance();
+  cameraInstance.init();
+  cameraInstance.setCameraDimen(height(), width());
+  cameraInstance.append();
   // For unique file names
   var filename;
 
@@ -161,7 +165,7 @@
           canvasInstance.setThumbnail(thumbnail);
           filterInstance.setFilterThumbnail();
           instaUi.setWidth(canvasWidth);
-          instaUi.setHeight(canvasHeight);      
+          instaUi.setHeight(canvasHeight);     
           context.drawImage(
             img, 0, 0, width, height, 0, 0, canvasWidth, canvasHeight);
           

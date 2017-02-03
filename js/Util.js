@@ -25,25 +25,33 @@ var Util = (function() {
   * @method truncate 
   * @param {Number} value;
   */
-
   var truncate = function(value) {
-    // if(value < 0) {
-    //   value = 0;
-    // }
-
-    // if(value > 255) {
-    //   value = 255
-    // }
-
-    // return value;
     if(value < 0) return 0;
     if(value > 255) return 255;
     return value;
   }
 
+    /**
+  * @method width
+  * @return {number} - visible window width
+  */
+  var getDocumentWidth = function() {
+      return window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+  }
+
+  /**
+  * @method height
+  * @return {number} - visible height of window
+  */
+  var getDocumentHeight = function(){
+     return window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;
+  }
+
   return {
     getElement : getElement,
     getStyle : getStyle,
-    truncate : truncate
+    truncate : truncate,
+    getDocumentWidth : getDocumentWidth,
+    getDocumentHeight, getDocumentHeight
   }
 })();       

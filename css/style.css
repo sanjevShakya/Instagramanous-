@@ -1,12 +1,15 @@
 body {
   background-color: #212121;
 }
+
 .main-container-wrapper {
-  
+  position: relative;
 }
+
 .main-container {
   max-width: 85em;
   margin: 0 auto;
+  
 }
 
 .col-2-left {
@@ -44,6 +47,7 @@ body {
   left: 60%;
   text-align: center;
   opacity: 0.8;
+
 } 
 
 .file-button input[type=file] {
@@ -52,6 +56,7 @@ body {
   opacity: 0;
   height: 50px;
   width: 50px;
+  z-index: 110;
 }
 
 .file-button .file-icon {
@@ -65,7 +70,6 @@ body {
 .file-button span:hover {
   color: #F06292;
 }
-
 
 .download-button {
   position: absolute;
@@ -98,19 +102,16 @@ body {
   color: #F06292;
 }
 
-.filter-container {
-  padding-top: 20px;
-}
-
 label {
   float: left;
   width: auto;
   padding-left: 10px;
 }
+
 div.filter {
   width: 25%;
   height: 57px;
-  padding-top: 10px;
+  padding-top: 15px;
   padding-bottom: 10px;
   float: left;
   font-size: 15px;
@@ -145,4 +146,26 @@ div.filter: hover {
 
 #rightBtn {
   left: 50%;
+}
+
+video {
+  position: absolute;
+}
+
+#cameraBtn {
+  position: absolute;
+  box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
+  transition: background-color .3s;
+  background-color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  top: 10%;
+  left: 60%;
+  text-align: center;
+  opacity: 0.8;
+  cursor: pointer;
+  color: #E91E63;
+  font-size: 20px;
+  line-height: 50px;
 }

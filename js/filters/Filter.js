@@ -20,7 +20,6 @@ var Filter = (function() {
   */
   function Filter() {
     var filterContainer = document.getElementsByClassName('filter-container')[0];
-    console.log(filterContainer);
     var filterMapInstance = FilterMap.getInstance();
     var canvasInstance = InstaUi.getInstance();
     this.element;
@@ -104,6 +103,7 @@ var Filter = (function() {
       var height = 50;  //Thumnail height 50px
       
       for(var i =0; i < filterNames.length; i++) {
+        console.log('filter applied to thumbnails');
         restore(data,copyData);
         var map = filterMapInstance.getMyFilterMap();
         var tempData = map.get(i)(data, width, height);
@@ -144,7 +144,6 @@ var Filter = (function() {
       canvasInstance.setFilterData(tempData);
       restore(data, tempData);
       context.putImageData(imageData, 0, 0);
-      //Rotation.getInstance().updateImage();
     }
 
   }
