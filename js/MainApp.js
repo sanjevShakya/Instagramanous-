@@ -72,6 +72,7 @@ var MainApp = (function() {
       vibrance.setVibrance(canvasInstance);
       sepia.setSepia(canvasInstance);
       decolorize.setDecolor(canvasInstance);
+      Paint.getInstance();
       Rotation.getInstance().init();
     }
 
@@ -138,7 +139,7 @@ var MainApp = (function() {
       decolorize.resetSlider();
       var numbers = document.getElementsByClassName('number');
       console.log(numbers);
-      for(var i; i < numbers.length; i++) {
+      for(var i=0; i < numbers.length; i++) {
         numbers[i].innerHTML = "" ;
       }
     }

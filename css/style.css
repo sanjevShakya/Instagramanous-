@@ -44,7 +44,7 @@ body {
   width: 50px;
   border-radius: 25px;
   top: 2%;
-  left: 60%;
+  left: 64%;
   text-align: center;
   opacity: 0.8;
 
@@ -80,7 +80,7 @@ body {
   width: 50px;
   border-radius: 25px;
   top: 18%;
-  left: 60%;
+  left: 64%;
   text-align: center;
   opacity: 0.8;
 }
@@ -135,16 +135,18 @@ div.filter: hover {
   border-radius: 25px;
   position: absolute;
   cursor: pointer;
-  left: 60%;
+  left: 64%;
   opacity: 0.8;
 }
 
 #leftBtn {
   top: 26%;
+  opacity: 0.8;
 }
 
 #rightBtn {
   top: 34%;
+  opacity: 0.8;
 }
 
 video {
@@ -160,11 +162,15 @@ video {
   width: 50px;
   border-radius: 25px;
   top: 10%;
-  left: 60%;
+  left: 64%;
   text-align: center;
   opacity: 0.8;
-  cursor: pointer;
+  cursor: pointer;  
   color: #E91E63;
   font-size: 20px;
   line-height: 50px;
+}
+
+.edit-box-title {
+  padding-left: 10px
 }

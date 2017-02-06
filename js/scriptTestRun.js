@@ -30,6 +30,7 @@
   // For unique file names
   var filename;
 
+
   /**
   * Image file select handler
   * @method fileSelectHandler 
@@ -48,6 +49,7 @@
       setTimeout(function(){
         loader.style.display = "none";
         mainApp.startProgram();
+        Paint.getInstance();
       },2000);
     }
   }

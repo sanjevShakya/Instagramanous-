@@ -27,7 +27,7 @@ var Rotation = (function() {
     var url = canvas.toDataURL('image/jpeg');
     var container = document.getElementsByClassName('main-container')[0];
     this.leftBtn;
-    this.rightBtn
+    this.rightBtn;
 
     /**
     * Create leftBtn for leftRotation and viceversa
@@ -95,6 +95,7 @@ var Rotation = (function() {
       context.translate(cx, cy);
       context.rotate(rotation * degToRadian);
       context.drawImage(image, -imageWidth/2, -imageHeight/2);  
+      context.translate(-imageWidth/2, -imageHeight/2);
       updateCopyImage(); 
     }
 
