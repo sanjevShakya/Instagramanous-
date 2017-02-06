@@ -1,3 +1,7 @@
+/**
+* Camera class for creating a video element and then adding touch and keypress event
+* to capture frame and put the frame onto canvas 
+*/
 var Camera = (function() {
   var instance;
   function Camera() {
@@ -14,7 +18,11 @@ var Camera = (function() {
     this.element;
     this.camera;
     this.cameraBtn;
-
+    
+    /**
+    * Create a containter for video, button elements and set
+    * necesary attributes
+    */
     this.init = function() {
       this.element = document.createElement('div');
       this.camera = document.createElement('video');
@@ -28,13 +36,19 @@ var Camera = (function() {
       this.camera.setAttribute('width', cameraWidth);
       this.camera.style.display = "none";
     }
-
+    /**
+    * Append elements to the DOM
+    */
     this.append = function() {
       this.element.append(this.camera);
       this.element.append(this.cameraBtn);
       mainContainer.append(this.element);
     }
 
+    /**
+    * Event listener for starting video streaming and add two event listener 
+    * in order to capture frame
+    */
     function openCamera() {
       canvasInstance.setHeight(cameraHeight);
       canvasInstance.setWidth(cameraWidth);
@@ -64,6 +78,11 @@ var Camera = (function() {
       }
     }
 
+    /**
+    * Get the frame from video element and then make an image from it 
+    * and run the image through mainApp for generting thumbnails and 
+    * start the mainApp
+    */
     var clickPicture = function() {
       var canvas = canvasInstance.getCanvas();
       camera = document.getElementById('camera');

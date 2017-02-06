@@ -4,18 +4,31 @@ var Paint = (function() {
     var canvasInstance = InstaUi.getInstance();
     var context = canvasInstance.getContext();
     var canvas = document.getElementById('instaUI');  
-    canvas.addEventListener('mousedown',getPosition, false);
-    canvas.addEventListener('mousemove',moveMouseDraw, false);
-    canvas.addEventListener('mouseup',stopPaint, false);
-    canvas.addEventListener('mouseleave',stopPaintML,false);
+    var container = document.getElementsByClassName('main-container')[0];
 
     var paint;
     var clickX = [];
     var clickY = [];
     var clickDrag = [];
 
-    function getPosition(e) {
+    this.element;
 
+    this.init = function() {
+      this.element = document.createElement('div');
+      this.element.setAttribute('id','pencil');
+      this.element.innerHTML = "<span><i class='fa fa-pencil'></i></span>";
+      this.element.addEventListener('click', startDrawing, false);
+      container.appendChild(this.element);
+    }
+
+    function startDrawing() {
+      canvas.addEventListener('mousedown',getPosition, false);
+      canvas.addEventListener('mousemove',moveMouseDraw, false);
+      canvas.addEventListener('mouseup',stopPaint, false);
+      canvas.addEventListener('mouseleave',stopPaintML,false);
+    }
+
+    function getPosition(e) {
       var mouseX = e.pageX - this.offsetLeft;
       var mouseY = e.pageY - this.offsetTop;      
       paint = true;

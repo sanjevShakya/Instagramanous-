@@ -4,6 +4,7 @@
 */
 var FilterMap = (function(){
   var instance; 
+
   /**
    * Repository for mapping id to respective filter function
   */
@@ -15,7 +16,7 @@ var FilterMap = (function(){
     myFilterMap.set(3, moon);
     myFilterMap.set(4, lark);
     myFilterMap.set(5, lipstick);
-    myFilterMap.set(6, colorize);
+    myFilterMap.set(6, ashby);
     myFilterMap.set(7, reyes);
     myFilterMap.set(8, juno);
     myFilterMap.set(9, slumber);
@@ -28,7 +29,7 @@ var FilterMap = (function(){
     myFilterMap.set(16, sierra);
     myFilterMap.set(17, inkwell);
     myFilterMap.set(18, filter1997);
-    myFilterMap.set(19, ashby);
+    myFilterMap.set(19, colorize);
 
     /**
     * Get defined filter map 

@@ -903,3 +903,88 @@ var Decolorize = (function() {
     }
   }
 })();
+
+var Threshold = (function() {
+  var instance;
+  function Threshold() {
+    var threshold = Manipulator.getInstance();
+    threshold.init();
+    threshold.append();
+    this.init = function() {
+      threshold.setId('thresholdSlider');
+      threshold.setType('range');
+      threshold.setMaxValue('255');
+      threshold.setMinValue('0');
+      threshold.setValue('128');
+      threshold.setLabel('Threshold');
+    }
+
+    this.resetSlider = function() {
+      document.getElementById('thresholdSlider').value = "128";
+    }
+
+    this.setThreshold = function(canvasInstance) {
+      var thresholdSlider = document.getElementById('thresholdSlider');
+      threshold.enableSlider();
+      thresholdSlider.addEventListener('input', showThreshold, false);
+      thresholdSlider.addEventListener('change', changeThreshold, false);
+
+      function showThreshold(e) {
+        var sliderValue = parseInt(e.target.value);
+        threshold.setSliderValue(sliderValue);
+        //var copyData = canvasInstance.getCopyData();
+        var filterData = canvasInstance.getFilterData();
+        var context = canvasInstance.getContext();
+        var imageData = canvasInstance.getImageData();
+        var data = imageData.data; //original data
+        restoreImageData(data,filterData);
+        data = thresholdManipulation(sliderValue, data);
+        context.putImageData(imageData, 0, 0);
+        restoreImageData(data, filterData);
+      }
+
+      function changeThreshold(e) {
+        //var copyData = canvasInstance.getCopyData();
+        var filterData = canvasInstance.getFilterData();
+        var context = canvasInstance.getContext();
+        var imageData = canvasInstance.getImageData();
+        var data = imageData.data; //original data
+        restoreImageData(data,filterData);
+        var sliderValue = parseInt(e.target.value);
+        data = thresholdManipulation(sliderValue, data);
+        context.putImageData(imageData, 0, 0);
+        canvasInstance.setFilterData(data.slice());
+      }
+    }
+
+    var restoreImageData = function(data, copyData) {
+      for(var i =0; i < data.length; i+=4){
+        data[i] = copyData[i];
+        data[i+1] = copyData[i+1];
+        data[i+2] = copyData[i+2];
+      }
+    }
+
+    var thresholdManipulation = function(s, data) {
+      var thres = s;
+      var redV = 0.2126;
+      var greenV = 0.7152;
+      var blueV = 0.0722;
+      for (var i=0; i< data.length; i+=4) {
+        var v = (redV * data[i]  + greenV * data[i+1] + blueV * data[i+2] >= thres) ? 255 : 0;
+        data[i] = data[i+1] = data[i+2] = v
+      }
+      return data;
+    }
+
+  }
+  return {
+
+    getInstance: function() {
+      if(instance == null) {
+        instance = new Threshold();
+      }
+      return instance;
+    }
+  }
+})();

@@ -13,11 +13,11 @@ body {
 }
 
 .col-2-left {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 .col-2-right {
-  padding-top: 20px;
+  padding-top: 10px;
   
 }
 
@@ -171,6 +171,28 @@ video {
   line-height: 50px;
 }
 
+#pencil {
+  position: absolute;
+  box-shadow: 0 1px 4px rgba(255, 255, 255, .3);
+  transition: background-color .3s;
+  background-color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  top: 42%;
+  left: 64%;
+  text-align: center;
+  opacity: 0.8;
+  cursor: pointer;  
+  color: #E91E63;
+  font-size: 20px;
+  line-height: 50px;
+}
+
 .edit-box-title {
   padding-left: 10px
+}
+
+.edit-box-container {
+  padding-left: 15px;
 }

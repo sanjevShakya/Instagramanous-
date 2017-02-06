@@ -30,11 +30,11 @@ var MainApp = (function() {
 
     var decolorize = Decolorize.getInstance();
 
+    var threshold = Threshold.getInstance();
+
     var filterInstance = Filter.getInstance();
 
     var that = this;
-
-
 
     /**
     * Call initial values of all sliders
@@ -49,6 +49,7 @@ var MainApp = (function() {
       vibrance.init();
       sepia.init();
       decolorize.init();
+      threshold.init();
     }
     
     /**
@@ -72,7 +73,8 @@ var MainApp = (function() {
       vibrance.setVibrance(canvasInstance);
       sepia.setSepia(canvasInstance);
       decolorize.setDecolor(canvasInstance);
-      Paint.getInstance();
+      threshold.setThreshold(canvasInstance)
+      Paint.getInstance().init();
       Rotation.getInstance().init();
     }
 
@@ -102,7 +104,6 @@ var MainApp = (function() {
 
     this.handleImage = function(image, context) {
       image.addEventListener('load', function(event){
-        console.log(image);
         var width = image.width;
         var height = image.height;
         var aspectRatio = width/height;
@@ -137,8 +138,8 @@ var MainApp = (function() {
       vibrance.resetSlider();
       sepia.resetSlider();
       decolorize.resetSlider();
+      threshold.resetSlider();
       var numbers = document.getElementsByClassName('number');
-      console.log(numbers);
       for(var i=0; i < numbers.length; i++) {
         numbers[i].innerHTML = "" ;
       }

@@ -2,9 +2,9 @@
 * Names of predefined filters
 */
 var filterNames = ["Normal","Clarendon","Gingham","Moon","Lark","Lipstick",
-           "Colorize","Reyes","Juno","Slumber","Grayscale", "Threshold",
+           "Ashby","Reyes","Juno","Slumber","Grayscale", "Threshold",
            "Blur", "Sharpen","Soft Sharpen","X-pro II","Sierra","Inkwell",
-           "1997","Ashby"];
+           "1997","Colorize"];
 
 /**
 * @return {Filter} instance - object of Filter 
@@ -103,7 +103,6 @@ var Filter = (function() {
       var height = 50;  //Thumnail height 50px
       
       for(var i =0; i < filterNames.length; i++) {
-        console.log('filter applied to thumbnails');
         restore(data,copyData);
         var map = filterMapInstance.getMyFilterMap();
         var tempData = map.get(i)(data, width, height);
@@ -144,8 +143,8 @@ var Filter = (function() {
       canvasInstance.setFilterData(tempData);
       restore(data, tempData);
       context.putImageData(imageData, 0, 0);
+      MainApp.getInstance().resetSliders();
     }
-
   }
   return {
     getInstance: function() {
