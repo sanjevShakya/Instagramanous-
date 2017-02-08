@@ -1,5 +1,6 @@
 /**
-* 
+* Used to create a div element with label, slider and span for displaying values
+* Acts as a generic class for multiple inheritance for other classes like Brightness, Contrast, etc
 */
 var Manipulator = (function() {
   var instance;
@@ -48,7 +49,6 @@ var Manipulator = (function() {
     this.setMaxValue = function(_maxValue){
       this.max = _maxValue;
       this.slider.setAttribute('max',_maxValue);
-
     }
 
     this.setValue = function(_value) {
@@ -972,7 +972,7 @@ var Threshold = (function() {
       var blueV = 0.0722;
       for (var i=0; i< data.length; i+=4) {
         var v = (redV * data[i]  + greenV * data[i+1] + blueV * data[i+2] >= thres) ? 255 : 0;
-        data[i] = data[i+1] = data[i+2] = v
+        data[i] = data[i+1] = data[i+2] = v;
       }
       return data;
     }

@@ -36,6 +36,7 @@ var Camera = (function() {
       this.camera.setAttribute('width', cameraWidth);
       this.camera.style.display = "none";
     }
+    
     /**
     * Append elements to the DOM
     */
@@ -96,7 +97,6 @@ var Camera = (function() {
       image.src = url;
       mainApp.handleImage(image, context);
       //make image file 
-
       context.clearRect(0, 0, cameraWidth, cameraHeight);
       canvasInstance.setHeight(50);
       canvasInstance.setWidth(50);

@@ -34,6 +34,11 @@
     top: 2%;
     left: 65%;
   }
+
+  #pencil {
+    top: 2%;
+    left: 80%;
+  }
   
   .filter-title {
     padding-left: 10px;
