@@ -7,7 +7,6 @@ var Camera = (function() {
   function Camera() {
     var OFFSET = 5;
     var mainContainer = document.getElementsByClassName('main-container')[0];
-    var cameraHolder;
     var camera;
     var localstream;
     var canvasInstance = InstaUi.getInstance();
@@ -51,6 +50,9 @@ var Camera = (function() {
     * in order to capture frame
     */
     function openCamera() {
+      if (camera) {
+        return clickPicture();
+      }
       canvasInstance.setHeight(cameraHeight);
       canvasInstance.setWidth(cameraWidth);
 
