@@ -130,10 +130,13 @@ var Filter = (function() {
     * @param e 
     */
     function filterEventHandler(e) {
+      var copyData = canvasInstance.getCopyData();
+      if (!copyData) {
+        return alert("Please select an image first.");
+      }
       var imageData = canvasInstance.getImageData();
       var context = canvasInstance.getContext();
       var data = imageData.data;
-      var copyData = canvasInstance.getCopyData();
       restore(data, copyData);    
       var map = filterMapInstance.getMyFilterMap();
       var key = parseInt(e.target.id);
